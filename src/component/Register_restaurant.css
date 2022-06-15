@@ -1,0 +1,82 @@
+
+.restaurant_background{
+    background: linear-gradient(to right, #9900ff, #cc80ff);
+    height: 100%;
+    width: 100%;
+    min-height: 92.1vh;
+    display: flex;
+}
+
+.form_control{
+    display: flex !important;
+    justify-content: space-around !important;
+    width: 100%;
+}
+.restaurant_form{
+    background-color: rgb(218, 255, 255);
+    border-radius: 5px;
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    /* align-items: start; */
+    align-items: center;
+
+}
+
+.restaurant_form_field{
+    border-radius: 5px;
+    padding: 8px;
+}
+
+.restaurant_form_label{
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.restaurant_form_error{
+    color: red;
+}
+
+.restaurant_form_button{
+    padding: 5px;
+    margin: 10px;
+    width: 100px;
+    border-radius: 5px;
+}
+
+.restaurant_form_image{
+    height: 100px;
+    margin: 12px 8px;
+    border-radius: 4px;
+}
+
+.restaurant_form_textarea{
+    /* width: */
+    /* height: 20px; */
+    max-height: 100px;
+    min-height: 100px;
+    padding: 5px;
+    /* height: 50px; */
+}
+
+.form-top{
+    /* margin: 1px; */
+}
+
+.restaurant_form_item{
+    display: flex;
+    flex-direction: column;
+    /* align-items: flex-start; */
+    margin: 0px 40px;
+    /* padding: 10px; */
+}
+
+.restaurant_form_bottom{
+    display: flex;
+} 
