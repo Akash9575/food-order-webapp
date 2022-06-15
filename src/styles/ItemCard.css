@@ -1,0 +1,19 @@
+.cardgroup__container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.card{
+    margin: 1rem 0.5rem;
+    border: 1px solid silver !important;
+    border-radius: 20px !important;
+    height: 100%;
+    box-shadow: 5px 5px 10px gray;
+}
+
+.card-img-top{
+    height: 25vh;
+    object-fit: cover;
+    border-radius: 20px !important;
+}
