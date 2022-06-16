@@ -7,3 +7,50 @@
 .itemcard__container{
     padding: 1rem;
 }
+
+.citys{
+  display: flex;
+  background-color: rgb(255, 255, 255);
+  width: fit-content;
+  padding: 20px;
+  margin: auto ;
+}
+
+.citys_item{
+  padding: 10px;
+}
+
+.citys img{
+  height: 100px;
+}
+
+.city_model{
+  position: fixed; 
+  z-index: 1;
+  padding-top: 50px;
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.select_city{
+  width: 25%;
+  padding: 10px;
+}
+
+.search{
+  width: 25%;
+  padding: 10px;
+}
+
+.header_item{
+  position: absolute;
+  width: 100%;
+  top: 40%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}

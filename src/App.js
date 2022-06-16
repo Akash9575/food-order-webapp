@@ -15,6 +15,7 @@ function App() {
         <Route path="/registerrestaurant" element={<Register_Restaurant/>} />
         <Route path="/login" element={<NavBar />} />
         <Route path="/signup" element={<NavBar />} />
+        <Route path="/:restaurant_name" element={<NavBar />} />
       </Routes>
     </div>
   );
