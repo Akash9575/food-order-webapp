@@ -44,7 +44,6 @@ const DummyJsonData = [
 
 var a = 0;
 var b = 0;
-
 const ItemCard = (props) => {
   const [allRestaurantData,setAllRestaurantData] = useState(DummyJsonData)
   const [cityViseRestaurant,setCityViseRestaurant] = useState(DummyJsonData)
@@ -63,24 +62,26 @@ const ItemCard = (props) => {
 
 
   useEffect(() => {
-  
     console.log(props.search)
       let matches = searchData.filter((item) => {
         return item.restaurant_name.toLowerCase().includes(props.search.toLowerCase())
       })
       setCityViseRestaurant(matches)
-   
   },[props.search])
+
+  const selectRestaurant = (name) => {
+    console.log(name)
+  }
+  
 
   return (
     <>
-
         <Row xs={1} md={2} lg={3} className="g-4 cardgroup__container">
           {
             cityViseRestaurant.length > 0 ?
             cityViseRestaurant.map((item) => 
             <Col>
-            <Card classname="card">
+            <Card classname="card" onClick={() => selectRestaurant(item.restaurant_name)}>
               <Card.Img className='card-img-top' variant="top" src={item.restaurant_image_url} />
               <Card.Body>
                 <Card.Title>{item.restaurant_name}</Card.Title>

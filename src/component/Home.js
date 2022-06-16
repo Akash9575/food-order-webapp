@@ -42,8 +42,8 @@ const Home = () => {
             <div>Mumbai</div>
           </div>
           <div className="citys_item">
-              <img src="//in.bmscdn.com/m6/images/common-modules/regions/ncr.png" alt="NCR"  name="Delhi-NCR" onClick={selectCity}/>
-              <div>Delhi-NCR</div>
+              <img src="//in.bmscdn.com/m6/images/common-modules/regions/ncr.png" alt="NCR"  name="Delhi" onClick={selectCity}/>
+              <div>Delhi</div>
           </div>
           <div className="citys_item">
               <img src="//in.bmscdn.com/m6/images/common-modules/regions/bang.png" alt="BANG" name="Bengaluru" onClick={selectCity}/>
