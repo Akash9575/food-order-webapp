@@ -5,5 +5,6 @@ import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Badge from 'react-bootstrap/Badge'
 
-export {Navbar, Nav, Container, Card, CardGroup, Row, Col};
+export {Navbar, Nav, Container, Card, CardGroup, Row, Col, Badge};

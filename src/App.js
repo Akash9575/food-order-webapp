@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import NavBar from "./component/NavBar";
 import Home from './component/Home';
 import "./App.css";
+import Restaurant from "./component/Restaurant";
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
         <Route path="/registerrestaurant" element={<NavBar/>} />
         <Route path="/login" element={<NavBar />} />
         <Route path="/signup" element={<NavBar />} />
-        <Route path="/:restaurant_name" element={<NavBar />} />
+        <Route path="/:restaurant_name" element={<Restaurant/>} />
       </Routes>
     </div>
   );
