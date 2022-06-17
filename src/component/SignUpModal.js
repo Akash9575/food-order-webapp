@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Button, Modal, Form, Row, Col } from "../react-bootstrap/component";
+import './AuthModal.css'
 
-export default function LoginModal() {
+export default function SignUpModal() {
   // const [show, setShow] = useState(true);
   const [validated, setValidated] = useState(false);
-  const [login_data, setLogin_data] = useState({
+  const [register_data, setRegister_data] = useState({
     name: "",
     contact_number: "",
     email: "",
@@ -16,6 +17,14 @@ export default function LoginModal() {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.stopPropagation();
+    }
+    else if(register_data.contact_number.length !== 10)
+    {
+      return alert('Contact number Must be 10 digit')
+    }
+    else if(register_data.password.length < 6)
+    {
+      return alert('Password at least 6 char long')
     } else {
       // console.log(login_data);
       fetch("https://e5f0-2405-205-c86a-7de7-db8c-5844-6bc1-df36.in.ngrok.io/users", {
@@ -24,7 +33,7 @@ export default function LoginModal() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user: login_data,
+          user: register_data,
         }),
       })
         .then((res) => res.json())
@@ -47,7 +56,7 @@ export default function LoginModal() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setLogin_data({ ...login_data, [name]: value });
+    setRegister_data({ ...register_data, [name]: value });
   };
 
   // const handleClose = () => setShow(false);
@@ -82,7 +91,7 @@ export default function LoginModal() {
             </Form.Group>
           </Row>
           <Row className="my-3">
-            <Form.Group as={Col} controlId="validationCustomUsername">
+            <Form.Group as={Col} controlId="validationCustomUserEmail">
               <Form.Label className="form_label">Email</Form.Label>
               <Form.Control
                 type="email"
@@ -101,7 +110,7 @@ export default function LoginModal() {
             </Form.Group>
           </Row>
           <Row className="my-3">
-            <Form.Group as={Col} controlId="validationCustomUsername">
+            <Form.Group as={Col} controlId="validationCustomUserContactNumber">
               <Form.Label className="form_label">Contact Number</Form.Label>
               <Form.Control
                 type="number"
@@ -120,7 +129,7 @@ export default function LoginModal() {
             </Form.Group>
           </Row>
           <Row className="my-3">
-            <Form.Group as={Col} controlId="validationCustom03">
+            <Form.Group as={Col} controlId="validationCustomUserPassword">
               <Form.Label className="form_label">Password</Form.Label>
               <Form.Control
                 type="password"

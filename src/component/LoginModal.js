@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Modal, Form, Row, Col } from "../react-bootstrap/component";
-import './LoginModal.css';
+import './AuthModal.css';
 
 export default function LoginModal(props) {
   const [validated, setValidated] = useState(false);
@@ -15,8 +15,7 @@ export default function LoginModal(props) {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
-      // console.log(login_data);
-      fetch("https://e5f0-2405-205-c86a-7de7-db8c-5844-6bc1-df36.in.ngrok.io/users/sign_in", {
+      fetch("https://d77d-103-240-35-190.in.ngrok.io/users/sign_in", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -25,7 +24,7 @@ export default function LoginModal(props) {
           user: login_data,
         }),
       })
-        .then((res) => console.log(res))
+        .then((res) => res.json())
         .then((data) => {
           console.log(data);
           if (data.error) {
