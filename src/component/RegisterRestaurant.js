@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { cloudinary_upload_url } from "../urls/url";
-import "../styles/RegisterRestaurant.css";
 import { fetch_url } from "../urls/url";
+import "../styles/RegisterRestaurant.css";
 
 const RegisterRestaurant = () => {
   const [image, setImage] = useState('');
@@ -34,7 +34,7 @@ const RegisterRestaurant = () => {
           // Authorization: "Bearer " + localStorage.getItem("jwt"),
         },
         body: JSON.stringify({
-          restaurant: restaurant_register_data,
+          restaurants: restaurant_register_data,
         }),
       })
         .then((res) => res.json())
