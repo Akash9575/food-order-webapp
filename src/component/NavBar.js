@@ -1,7 +1,7 @@
 import React from 'react'
 import {Navbar, Nav, Container} from '../react-bootstrap/component';
 import {NavLink} from 'react-router-dom';
-import './NavBar.css';
+import '../styles/NavBar.css';
 
 const NavBar = () => {
   return (
@@ -19,13 +19,13 @@ const NavBar = () => {
             <Nav>
               <NavLink className='navlink' to="/registerrestaurant">Register Restaurant</NavLink>
               <NavLink className='navlink' to="/login">Log In</NavLink>
-              <NavLink className='navlink' to="/signup"> Sign Up </NavLink>
+              <NavLink className='navlink' to="/signup">Sign Up</NavLink>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
     </>
-  )
-}
+  );
+};
 
-export default NavBar
+export default NavBar;

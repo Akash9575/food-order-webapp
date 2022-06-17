@@ -5,5 +5,8 @@ import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
 
-export {Navbar, Nav, Container, Card, CardGroup, Row, Col};
+export {Navbar, Nav, Card, CardGroup, Container, Modal, Button, Form, Row, Col};

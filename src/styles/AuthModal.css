@@ -1,0 +1,27 @@
+.form_container{
+    background-color: aliceblue;
+    display: flex;
+    height: 90vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.form{
+    margin: auto;
+    min-width: 50%;
+    background-color: rgb(210, 203, 203);
+    border: 2px solid gray;
+    border-radius: 10px;
+    box-shadow: 10px 10px 10px silver;
+    padding: 2rem;
+}
+
+.form_label{
+    text-align: left !important;
+    font-size: 20px;
+    font-weight: 500;
+}
+.form_control_feedback{
+    font-size: 15px !important;
+    font-weight: 500;
+}

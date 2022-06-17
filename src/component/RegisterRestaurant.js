@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { cloudinary_upload_url } from "../urls/url";
-import "./RegisterRestaurant.css";
+import "../styles/RegisterRestaurant.css";
+import { fetch_url } from "../urls/url";
 
 const RegisterRestaurant = () => {
   const [image, setImage] = useState('');
@@ -25,9 +26,33 @@ const RegisterRestaurant = () => {
     }
 
     if (secure_url) {
-      console.log(secure_url)
+      setRestaurant_register_data({...restaurant_register_data, secure_url});
+      fetch(`${fetch_url}/api/v1/restaurants`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        body: JSON.stringify({
+          restaurant: restaurant_register_data,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          // if (data.error) {
+          //   // alert(data.error);
+          // } else {
+          //   // alert(data.msg);
+          // }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, [image, secure_url]);
+
+  console.log(restaurant_register_data);
 
   const uploadRestaurantImage = () => {
     if (image === "") return alert("Please upload image");
