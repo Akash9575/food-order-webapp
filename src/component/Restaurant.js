@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState , useRef } from 'react'
 import { useLocation } from 'react-router-dom';
-import { Card, CardGroup, Row, Col, Badge } from "../react-bootstrap/component";
+import { Card, CardGroup, Row, Col, Badge , Button } from "../react-bootstrap/component";
 import Select from 'react-select'
 import '../styles/Restaurant.css'
+import { useDispatch } from 'react-redux';
+import { CartAction } from '../store/Cart-reducer'
 
 const DummyItemsData = [
     {
@@ -50,14 +52,17 @@ const options = [
     { value: 'Gujrati', label: 'Gujrati' },
     { value: 'Chinese', label: 'Chinese' },
     { value: 'FastFood', label: 'Fast Food' },
-  ]
+]
 
 const Restaurant = () => {
+
+    const dispatch = useDispatch()
+    
     const location = useLocation();
-    const [val,setVal] = useState(0)
+    const [val, setVal] = useState(0)
     const [allItemData, setAllItemData] = useState([])
     const [categoriesData, setCategoriesData] = useState([])
-    const [categories , setCategories] = useState('')
+    const [categories, setCategories] = useState('')
     const { item } = location.state
 
     useEffect(() => {
@@ -67,21 +72,27 @@ const Restaurant = () => {
     }, [])
 
     useEffect(() => {
-        if(categories == "AllItem")
-        {
-          setCategoriesData(allItemData)
+        if (categories == "AllItem") {
+            setCategoriesData(allItemData)
         }
-        else if(val==1){
+        else if (val == 1) {
             const RestaurantCategoriesItems = allItemData.filter((food) => food.item_category.toLowerCase().includes(categories.toLowerCase()))
             setCategoriesData(RestaurantCategoriesItems)
         }
         setVal(1);
-    },[categories])
+    }, [categories])
 
     const HandleCategories = (e) => {
         setCategories(e.value)
     }
 
+    const AddItemHandler = (foodItem) => {
+        dispatch(CartAction.addItemtoCart({
+            id:foodItem.item_id,
+            title:foodItem.item_name,
+            price:foodItem.item_price
+        }))
+      }
     return (
         <>
             <img
@@ -95,31 +106,29 @@ const Restaurant = () => {
             </div>
 
             <div>
-            <Select options={options} onChange={HandleCategories}   defaultValue={options[0]}/>
+                <Select options={options} onChange={HandleCategories} defaultValue={options[0]} />
             </div>
 
             <div className='foodItems'>
-            {
-              categoriesData.map((foodItem) => 
-                 <Card style={{ width: '50%'}}>
-                 <Row className='no-gutters'>
-                     <Col md={5} lg={5}  >
-                         <Card.Img variant="top" src={foodItem.item_image_url} />
-                     </Col>
-                     <Col>
-                         <Card.Body>
-                             <Card.Title>{foodItem.item_name}</Card.Title>
-                             <Card.Text>
-                                 {foodItem.item_description}
-                             </Card.Text>
-                             {/* <Button variant="primary">Go somewhere</Button> */}
-                             <h2>helo</h2>
-                         </Card.Body>
-                     </Col>
-                 </Row>
-             </Card>
-            ) }
-           </div>
+                { categoriesData.map((foodItem) =>
+                        <Card style={{ width: '50%' }}>
+                            <Row className='no-gutters'>
+                                <Col md={5} lg={5}  >
+                                    <Card.Img variant="top" src={foodItem.item_image_url} />
+                                </Col>
+                                <Col>
+                                    <Card.Body>
+                                        <Card.Title>{foodItem.item_name}</Card.Title>
+                                        <Card.Text>
+                                            {foodItem.item_description}
+                                        </Card.Text>
+                                        <Button onClick={() => AddItemHandler(foodItem)}>Add to Cart</Button>
+                                    </Card.Body>
+                                </Col>
+                            </Row>
+                        </Card>
+                    )}
+            </div>
 
         </>
     )

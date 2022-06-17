@@ -57,12 +57,32 @@ const ItemCard = (props) => {
   const [cityViseRestaurant,setCityViseRestaurant] = useState(DummyJsonData)
   const [searchData,setSearchData] = useState(DummyJsonData)
 
+
+
+  useEffect(() => {
+
+      // const fetchData = async () => {
+      //     const response = await fetch("link");
+      //     if(!response.ok){
+      //       throw new Error("Somthing went wrong")
+      //     }
+      //     const data = await response.json();
+
+      //     setAllRestaurantData(data);
+      //     setCityViseRestaurant(data);
+      //     setSearchData(data);
+      // }
+
+      // fetchData().catch((err) => {
+      //   console.log(err)
+      // })
+  },[])
+
   let navigate = useNavigate();
 
   useEffect(() => {
    if(a==1)
   {
-    console.log("hekko")
     const cityRestaurant = allRestaurantData.filter((item) => item.restaurant_city == props.city)    
     setCityViseRestaurant(cityRestaurant)
     setSearchData(cityRestaurant)
