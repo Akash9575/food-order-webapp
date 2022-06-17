@@ -8,5 +8,6 @@ import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import Badge from 'react-bootstrap/Badge'
 
-export {Navbar, Nav, Card, CardGroup, Container, Modal, Button, Form, Row, Col};
+export {Navbar, Nav, Container, Card, CardGroup,Modal, Row, Form, Col, Badge,Button};

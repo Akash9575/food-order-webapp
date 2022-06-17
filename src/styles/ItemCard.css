@@ -18,11 +18,17 @@
     box-shadow: 10px 10px 5px rgb(124, 122, 122);
     /* width: 100px; */
     
-    margin-top: -10px;
+    /* margin-top: -10px; */
 }
 
 .card-img-top{
     height: 25vh;
     object-fit: cover;
     border-radius: 20px !important;
+}
+
+.footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

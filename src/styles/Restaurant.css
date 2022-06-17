@@ -1,0 +1,16 @@
+.foodItems{ 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header_fooditem{
+    position: absolute;
+    width: fit-content;
+    top: 30%;
+    left: 35%;
+    background-color: rgb(234, 209, 209);
+    padding: 30px;
+    border-radius: 5px;
+    z-index: 1;
+}

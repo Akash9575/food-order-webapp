@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardGroup, Row, Col } from "../react-bootstrap/component";
+import { Card, CardGroup, Row, Col , Badge } from "../react-bootstrap/component";
+import StarIcon from '@mui/icons-material/Star';
+import {useNavigate} from "react-router-dom";
 import "../styles/ItemCard.css";
 
 const DummyJsonData = [
   {
       "restaurant_id": 1,
+      "restaurant_status": 'close',
+      "restaurant_rating": '4.5',
       "restaurant_name": "Arpit Restaurant",
       "restaurant_address": "Balitha , Ahmedabad",
       "restaurant_contact_number": "6351081845",
@@ -16,20 +20,24 @@ const DummyJsonData = [
       "updated_at": "2022-06-15T05:41:36.751Z"
   },
   {
-    "restaurant_id": 1,
+    "restaurant_id": 2,
     "restaurant_name": "Arpit Restaurant",
+    "restaurant_rating": '4.2',
     "restaurant_address": "Balitha , Ahmedabad",
     "restaurant_contact_number": "6351081845",
     "restaurant_description": "Good restaurant",
     "restaurant_city": "Ahmedabad",
     "restaurant_email": "akash@gamail.com",
     "restaurant_image_url": "https://b.zmtcdn.com/web_assets/81f3ff974d82520780078ba1cfbd453a1583259680.png",
+    "restaurant_status": 'open',
     "created_at": "2022-06-15T05:41:36.751Z",
     "updated_at": "2022-06-15T05:41:36.751Z"
 },
 
   {
       "restaurant_id": 3,
+      "restaurant_status": 'close',
+      "restaurant_rating": '3.2',
       "restaurant_name": "Akash Restaurant",
       "restaurant_address": "Balitha , Mumbai",
       "restaurant_contact_number": "6351081845",
@@ -43,23 +51,44 @@ const DummyJsonData = [
 ]
 
 var a = 0;
-var b = 0;
 const ItemCard = (props) => {
+
   const [allRestaurantData,setAllRestaurantData] = useState(DummyJsonData)
   const [cityViseRestaurant,setCityViseRestaurant] = useState(DummyJsonData)
   const [searchData,setSearchData] = useState(DummyJsonData)
 
+
+
+  useEffect(() => {
+
+      // const fetchData = async () => {
+      //     const response = await fetch("link");
+      //     if(!response.ok){
+      //       throw new Error("Somthing went wrong")
+      //     }
+      //     const data = await response.json();
+
+      //     setAllRestaurantData(data);
+      //     setCityViseRestaurant(data);
+      //     setSearchData(data);
+      // }
+
+      // fetchData().catch((err) => {
+      //   console.log(err)
+      // })
+  },[])
+
+  let navigate = useNavigate();
+
   useEffect(() => {
    if(a==1)
   {
-    console.log("hekko")
     const cityRestaurant = allRestaurantData.filter((item) => item.restaurant_city == props.city)    
     setCityViseRestaurant(cityRestaurant)
     setSearchData(cityRestaurant)
   }
     a=1;
   },[props.city])
-
 
   useEffect(() => {
     console.log(props.search)
@@ -69,10 +98,9 @@ const ItemCard = (props) => {
       setCityViseRestaurant(matches)
   },[props.search])
 
-  const selectRestaurant = (name) => {
-    console.log(name)
+  const selectRestaurant = (item) => {
+    navigate(`/${item.restaurant_name}`, {state:{item}})
   }
-  
 
   return (
     <>
@@ -81,7 +109,7 @@ const ItemCard = (props) => {
             cityViseRestaurant.length > 0 ?
             cityViseRestaurant.map((item) => 
             <Col>
-            <Card classname="card" onClick={() => selectRestaurant(item.restaurant_name)}>
+            <Card classname="card" onClick={() => selectRestaurant(item)}>
               <Card.Img className='card-img-top' variant="top" src={item.restaurant_image_url} />
               <Card.Body>
                 <Card.Title>{item.restaurant_name}</Card.Title>
@@ -89,8 +117,15 @@ const ItemCard = (props) => {
                   {item.restaurant_description}
                 </Card.Text>
               </Card.Body>
-              <Card.Footer>
-                <small className="text-muted">{item.restaurant_city}</small>
+              <Card.Footer className="footer">
+               
+                  {item.restaurant_status == 'open' ?
+                    <Badge pill style={{ fontSize: '15px' }} bg="primary">open</Badge>
+                  :  <Badge pill style={{ fontSize: '15px' }} bg="secondary">close</Badge>
+                  }
+                  <small className="text-muted">{item.restaurant_city} </small>
+                  <Badge bg="warning" style={{ fontSize: '15px' }} text="dark">{item.restaurant_rating} <StarIcon fontSize="small" /></Badge>
+                
               </Card.Footer>
             </Card>
           </Col>
