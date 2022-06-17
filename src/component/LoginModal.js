@@ -1,6 +1,8 @@
 import { useState } from "react";
+import {useNavigate} from 'react-router-dom';
 import { Button, Modal, Form, Row, Col } from "../react-bootstrap/component";
-import './AuthModal.css';
+import "./AuthModal.css";
+import axios from "axios";
 
 export default function LoginModal(props) {
   const [validated, setValidated] = useState(false);
@@ -9,36 +11,28 @@ export default function LoginModal(props) {
     password: "",
   });
 
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
-      fetch("https://d77d-103-240-35-190.in.ngrok.io/users/sign_in", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user: login_data,
-        }),
+
+      axios.post(`https://d77d-103-240-35-190.in.ngrok.io/users/sign_in`, { user: login_data })
+      .then(res => {
+        console.log(res)
+        if (res.status === 200) {
+          localStorage.setItem("token", res.headers.authorization);
+          localStorage.setItem("user", JSON.stringify(res.data.user));
+          alert(res.data.message);
+          navigate("/");
+        } else {
+          alert("Invalid Username or Password");
+        }
       })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          if (data.error) {
-            alert(data.error);
-          } else {
-            localStorage.setItem("jwt", data.token);
-            localStorage.setItem("user", JSON.stringify(data.user));
-            alert(data.message);
-            // navigate("/requestprogress");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      .catch(err => console.log(err));
     }
     setValidated(true);
   };
@@ -51,7 +45,12 @@ export default function LoginModal(props) {
   return (
     <>
       <div className="form_container">
-        <Form className='form' noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form
+          className="form"
+          noValidate
+          validated={validated}
+          onSubmit={handleSubmit}
+        >
           <h1 className="mb-5">Login</h1>
           <Row className="my-3">
             <Form.Group as={Col} controlId="validationCustomUsername">
@@ -64,14 +63,17 @@ export default function LoginModal(props) {
                 onChange={handleChange}
                 required
               />
-              <Form.Control.Feedback className='form_control_feedback' type="invalid">
+              <Form.Control.Feedback
+                className="form_control_feedback"
+                type="invalid"
+              >
                 Please Enter a Username.
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
           <Row className="my-3">
             <Form.Group as={Col} controlId="validationCustom03">
-              <Form.Label className='form_label'>Password</Form.Label>
+              <Form.Label className="form_label">Password</Form.Label>
               <Form.Control
                 type="password"
                 placeholder="Password"
@@ -79,7 +81,10 @@ export default function LoginModal(props) {
                 onChange={handleChange}
                 required
               />
-              <Form.Control.Feedback className='form_control_feedback' type="invalid">
+              <Form.Control.Feedback
+                className="form_control_feedback"
+                type="invalid"
+              >
                 Please Enter a Password.
               </Form.Control.Feedback>
             </Form.Group>
