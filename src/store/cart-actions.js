@@ -1,4 +1,4 @@
-import { CartAction } from "./Cart-reducer";
+import { CartAction } from "./cart-slice";
 
 export const sendCartData =  (cart) =>{
     return async dispatch => {

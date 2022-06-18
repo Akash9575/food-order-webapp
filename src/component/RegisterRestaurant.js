@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+// import Form from 'react-bootstrap/Form'
 import { cloudinary_upload_url } from "../urls/url";
 import { fetch_url } from "../urls/url";
 import "../styles/RegisterRestaurant.css";
 
 const RegisterRestaurant = () => {
-  const [image, setImage] = useState('');
-  const [preview, setPreview] = useState('');
+  const [image, setImage] = useState("");
+  const [preview, setPreview] = useState("");
   const [restaurant_register_data, setRestaurant_register_data] = useState({});
-  const [secure_url, setSecure_url] = useState('');
+  const [secure_url, setSecure_url] = useState("");
+  const [selectCity,setSelectCity] = useState('');
 
   const HandelChange = (e) => {
-      setImage(e.target.files[0]);
+    setImage(e.target.files[0]);
   };
 
   useEffect(() => {
@@ -26,7 +28,7 @@ const RegisterRestaurant = () => {
     }
 
     if (secure_url) {
-      setRestaurant_register_data({...restaurant_register_data, secure_url});
+      setRestaurant_register_data({ ...restaurant_register_data, secure_url });
       fetch(`${fetch_url}/api/v1/restaurants`, {
         method: "POST",
         headers: {
@@ -76,6 +78,10 @@ const RegisterRestaurant = () => {
       });
   };
 
+  const handleCity = (e) => {
+    setSelectCity(e.target.value)
+  };
+
   return (
     <>
       <div className="restaurant_background">
@@ -86,7 +92,7 @@ const RegisterRestaurant = () => {
             restaurant_contact_number: "",
             restaurant_address: "",
             restaurant_city: "",
-            restaurant_description: ""
+            restaurant_description: "",
           }}
           validate={(values) => {
             const errors = {};
@@ -123,8 +129,8 @@ const RegisterRestaurant = () => {
             setRestaurant_register_data(values);
             uploadRestaurantImage();
             resetForm();
-            setImage('');
-            setPreview('');
+            setImage("");
+            setPreview("");
           }}
         >
           {({ isSubmitting }) => (
@@ -180,6 +186,19 @@ const RegisterRestaurant = () => {
                   </div>
                   <div className="restaurant_form_item">
                     <label className="restaurant_form_label">City</label>
+                    {/* <select name="restaurant_city" aria-label="Default select example" style={{padding:"8px",width:"200px"}} onChange={handleCity}>
+                      <option>Select city</option>
+                      <option value="Mumbai">Mumbai</option>
+                      <option value="Delhi">Delhi</option>
+                      <option value="Bengaluru">Bengaluru</option>
+                      <option value="Hyberabad">Hyberabad</option>
+                      <option value="Ahmedabad">Ahmedabad</option>
+                      <option value="Chandigarh">Chandigarh</option>
+                      <option value="Chennai">Chennai</option>
+                      <option value="Pune">Pune</option>
+                      <option value="Kolkata">Kolkata</option>
+                      <option value="Kochi">Kochi</option>
+                    </select> */}
                     <Field
                       type="text"
                       className="restaurant_form_field"
@@ -239,10 +258,7 @@ const RegisterRestaurant = () => {
                 </div>
               </div>
 
-              <button
-                type="submit"
-                className="restaurant_form_button"
-              >
+              <button type="submit" className="restaurant_form_button">
                 Submit
               </button>
             </Form>
