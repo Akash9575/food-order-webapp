@@ -1,30 +1,72 @@
-import React from 'react'
-import {Navbar, Nav, Container, ShoppingCartOutlinedIcon} from '../react-bootstrap/component';
+import React, { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import {Navbar, Nav, Container} from '../react-bootstrap/component';
+import Cart from "./Cart";
+import "../styles/NavBar.css";
 
 const NavBar = () => {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log(token)
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const onLogout = () => {
+    localStorage.removeItem("token", "user");
+    setIsLoggedIn(false);
+    navigate("/");
+  };
+
   return (
     <>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="/">Food Order</Navbar.Brand>
+          <Navbar.Brand to="/">Food Order</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/about">About</Nav.Link>
-              <Nav.Link href="/contact">Contact</Nav.Link>
+              <NavLink className="navlink" to="/">
+                Home
+              </NavLink>
+              <NavLink className="navlink" to="/about">
+                About
+              </NavLink>
+              <NavLink className="navlink" to="/contact">
+                Contact
+              </NavLink>
             </Nav>
             <Nav>
-              <Nav.Link href="/registerrestaurant">Register Restaurant</Nav.Link>
-              <Nav.Link><ShoppingCartOutlinedIcon style={{color: 'white'}} /></Nav.Link>
-              <Nav.Link href="/login">Log In</Nav.Link>
-              <Nav.Link eventKey={2} href="/signup"> Sign Up </Nav.Link>
+              <NavLink className="navlink" to="/registerrestaurant">
+                Register Restaurant
+              </NavLink>
+                <Cart />
+              {isLoggedIn && (
+                <NavLink className="navlink" to="/" onClick={onLogout}>
+                  Log Out
+                </NavLink>
+              )}
+              {!isLoggedIn && (
+                <>
+                  <NavLink className="navlink" to="/login">
+                    Log In
+                  </NavLink>
+                  <NavLink className="navlink" to="/signup">
+                    Sign Up
+                  </NavLink>
+                </>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
     </>
-  )
-}
+  );
+};
 
-export default NavBar
+export default NavBar;

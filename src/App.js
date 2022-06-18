@@ -17,15 +17,16 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchCartData())
+    console.log(dispatch(fetchCartData()))
   },[dispatch])
 
   useEffect(() => {
     dispatch(sendCartData(cart))
-    console.log(JSON.stringify({
-      items:{...cart.items},
-      totalCartPrice:cart.totalCartPrice,
-      totalQuantity:cart.totalQuantity
-    }))
+    // console.log(JSON.stringify({
+    //   items:{...cart.items},
+    //   totalCartPrice:cart.totalCartPrice,
+    //   totalQuantity:cart.totalQuantity
+    // }))
   },[cart,dispatch])
 
 
