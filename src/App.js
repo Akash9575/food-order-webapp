@@ -16,7 +16,6 @@ import Restaurant from './component/Restaurant';
 function App() {
 
   const cart = useSelector(state => state.cart)
-
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -31,7 +30,6 @@ function App() {
       totalQuantity:cart.totalQuantity
     }))
   },[cart,dispatch])
-
 
   return (
     <div className="App">
