@@ -7,5 +7,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
-export {Navbar, Nav, Container, Card, CardGroup, Row, Col, Badge,Button};
+export {Navbar, Nav, Container, Card, CardGroup, Row, Col, Badge,Button, ShoppingCartOutlinedIcon};

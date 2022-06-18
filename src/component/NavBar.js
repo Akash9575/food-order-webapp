@@ -1,5 +1,5 @@
 import React from 'react'
-import {Navbar, Nav, Container} from '../react-bootstrap/component';
+import {Navbar, Nav, Container, ShoppingCartOutlinedIcon} from '../react-bootstrap/component';
 
 const NavBar = () => {
   return (
@@ -16,6 +16,7 @@ const NavBar = () => {
             </Nav>
             <Nav>
               <Nav.Link href="/registerrestaurant">Register Restaurant</Nav.Link>
+              <Nav.Link><ShoppingCartOutlinedIcon style={{color: 'white'}} /></Nav.Link>
               <Nav.Link href="/login">Log In</Nav.Link>
               <Nav.Link eventKey={2} href="/signup"> Sign Up </Nav.Link>
             </Nav>

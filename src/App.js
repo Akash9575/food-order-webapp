@@ -9,7 +9,6 @@ import { sendCartData } from './store/CartSendDataAction';
 import { fetchCartData } from './store/CartSendDataAction';
 import { useDispatch } from 'react-redux';
 
-
 function App() {
 
   const cart = useSelector(state => state.cart)
