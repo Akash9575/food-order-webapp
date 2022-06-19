@@ -18,6 +18,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchCartData())
+    console.log(dispatch(fetchCartData()))
   },[dispatch])
 
   useEffect(() => {

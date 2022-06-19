@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ItemCard from "./ItemCard";
+import {Modal} from '../react-bootstrap/component'
 import "../styles/Home.css";
 
 const Home = () => {
@@ -35,6 +36,7 @@ const Home = () => {
       </div>
      {showModel &&  
       <>
+      
       <div className="city_model">
         <div className="citys">
           <div className="citys_item">

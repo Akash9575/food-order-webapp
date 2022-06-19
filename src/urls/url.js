@@ -1,2 +1,2 @@
 export const cloudinary_upload_url = "https://api.cloudinary.com/v1_1/abhay-parsaniya/auto/upload";
-export const fetch_url = "https://0106-2405-204-8503-cb10-b05f-486-5765-c0ed.in.ngrok.io"
+export const fetch_url = "https://919b-2401-4900-5638-8a49-1ff2-857e-a7fc-b23b.in.ngrok.io"

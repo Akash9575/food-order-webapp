@@ -13,6 +13,7 @@ const CartSlice = createSlice({
         replaceCartData(state,action){
             state.items = action.payload.items;
             state.totalQuantity = action.payload.totalQuantity;
+            state.totalCartPrice = action.payload.totalCartPrice
         },
         addItemtoCart(state,action){
             const newItem = action.payload
