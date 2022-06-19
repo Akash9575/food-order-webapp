@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import {Row, Col, Button, Card} from '../react-bootstrap/component';
 import "./PendingRequest.css";
 
 const dummy_data = [

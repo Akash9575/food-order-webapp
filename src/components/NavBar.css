@@ -1,0 +1,13 @@
+.navlink{
+    color: rgb(192, 192, 192);
+    text-decoration: none;
+    margin: 0rem 1rem;
+}
+
+.navbar-nav{
+    align-items: center;
+}
+
+.navlink:hover{
+    color: white;
+}
