@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Routes, Route } from "react-router-dom";
 import NavBar from "./component/NavBar";
 import Home from './component/Home';
@@ -13,6 +13,7 @@ import "./App.css";
 function App() {
 
   const cart = useSelector(state => state.cart)
+  const role = useSelector(state => state.auth.role)
 
   const dispatch = useDispatch()
 
@@ -32,8 +33,15 @@ function App() {
 
 
   return (
+    <>
     <div className="App">
-       <NavBar />
+    {/* {
+      (role === 'Customer') && <NavBar />
+      (role === 'Admin') && <NavBar />
+      (role === 'Delivery Men') && <NavBar />
+      (role === 'Restaurant Owner') && <NavBar />
+    } */}
+    <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<NavBar />} />
@@ -44,6 +52,7 @@ function App() {
         <Route path="/:restaurant_name" element={<Restaurant/>} />
       </Routes>
     </div>
+    </>
   );
 }
 
