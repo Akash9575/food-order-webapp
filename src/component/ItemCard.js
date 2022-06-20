@@ -109,7 +109,7 @@ const ItemCard = (props) => {
             cityViseRestaurant.length > 0 ?
             cityViseRestaurant.map((item) => 
             <Col>
-            <Card classname="card" onClick={() => selectRestaurant(item)}>
+            <Card className="card" onClick={() => selectRestaurant(item)}>
               <Card.Img className='card-img-top' variant="top" src={item.restaurant_image_url} />
               <Card.Body>
                 <Card.Title>{item.restaurant_name}</Card.Title>

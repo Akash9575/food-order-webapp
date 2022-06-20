@@ -1,17 +1,14 @@
-import {useState} from 'react';
+import { useEffect } from 'react';
 import { Routes, Route } from "react-router-dom";
 import NavBar from "./component/NavBar";
 import Home from './component/Home';
 import LoginModal from "./component/LoginModal";
 import SignUpModal from "./component/SignUpModal";
-import "./App.css";
 import RegisterRestaurant from "./component/RegisterRestaurant";
-import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { sendCartData } from './store/CartSendDataAction';
-import { fetchCartData } from './store/CartSendDataAction';
-import { useDispatch } from 'react-redux';
 import Restaurant from './component/Restaurant';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchCartData, sendCartData } from './store/cart-actions';
+import "./App.css";
 
 function App() {
 
@@ -20,15 +17,16 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchCartData())
+    console.log(dispatch(fetchCartData()))
   },[dispatch])
 
   useEffect(() => {
     dispatch(sendCartData(cart))
-    console.log(JSON.stringify({
-      items:{...cart.items},
-      totalCartPrice:cart.totalCartPrice,
-      totalQuantity:cart.totalQuantity
-    }))
+    // console.log(JSON.stringify({
+    //   items:{...cart.items},
+    //   totalCartPrice:cart.totalCartPrice,
+    //   totalQuantity:cart.totalQuantity
+    // }))
   },[cart,dispatch])
 
   return (

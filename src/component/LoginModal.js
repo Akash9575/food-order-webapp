@@ -1,9 +1,11 @@
 import { useState } from "react";
 import {useNavigate} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
+import {AuthAction} from '../store/auth-slice.js'
 import { Button, Modal, Form, Row, Col } from "../react-bootstrap/component";
-import "../styles/AuthModal.css";
-import axios from "axios";
 import { fetch_url } from "../urls/url";
+import axios from "axios";
+import "../styles/AuthModal.css";
 
 export default function LoginModal(props) {
   const [validated, setValidated] = useState(false);
@@ -13,6 +15,7 @@ export default function LoginModal(props) {
   });
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,8 +28,8 @@ export default function LoginModal(props) {
       .then(res => {
         console.log(res)
         if (res.status === 200) {
-          localStorage.setItem("token", res.headers.authorization);
-          localStorage.setItem("user", JSON.stringify(res.data.user));
+          dispatch(AuthAction.setToken({token: res.headers.authorization, user: res.data.user}))
+          dispatch(AuthAction.checkLogin());
           alert(res.data.message);
           navigate("/");
         } else {

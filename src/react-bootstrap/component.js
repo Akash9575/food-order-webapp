@@ -9,5 +9,6 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Badge from 'react-bootstrap/Badge'
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
-export {Navbar, Nav, Container, Card, CardGroup,Modal, Row, Form, Col, Badge,Button};
+export {Navbar, Nav, Container, Card, CardGroup, Row, Col, Badge,Button, Modal, Form, ShoppingCartOutlinedIcon};

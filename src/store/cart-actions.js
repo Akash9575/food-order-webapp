@@ -1,4 +1,4 @@
-import { CartAction } from "./Cart-reducer";
+import { CartAction } from "./cart-slice";
 
 export const sendCartData =  (cart) =>{
     return async dispatch => {
@@ -33,7 +33,8 @@ export const fetchCartData = () => {
 
           dispatch(CartAction.replaceCartData({
             items: data.items || [],
-            totalQuantity: data.totalQuantity
+            totalQuantity: data.totalQuantity,
+            totalCartPrice: data.totalCartPrice
         }))
     }
 }
