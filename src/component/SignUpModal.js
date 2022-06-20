@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Button, Modal, Form, Row, Col } from "../react-bootstrap/component";
-import './AuthModal.css'
+import "./AuthModal.css";
 
 export default function SignUpModal() {
   // const [show, setShow] = useState(true);
   const [validated, setValidated] = useState(false);
   const [register_data, setRegister_data] = useState({
     name: "",
-    contact_number: "",
     email: "",
+    contact_number: "",
+    role: "",
     password: "",
   });
 
@@ -17,17 +18,17 @@ export default function SignUpModal() {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.stopPropagation();
-    }
-    else if(register_data.contact_number.length !== 10)
+    } else if (register_data.contact_number.length !== 10) {
+      return alert("Contact number Must be 10 digit");
+    } else if (register_data.password.length < 6) {
+      return alert("Password at least 6 char long");
+    } else if(register_data.role === '' || register_data.role === 'Select Role')
     {
-      return alert('Contact number Must be 10 digit')
-    }
-    else if(register_data.password.length < 6)
-    {
-      return alert('Password at least 6 char long')
-    } else {
-      // console.log(login_data);
-      fetch("https://e5f0-2405-205-c86a-7de7-db8c-5844-6bc1-df36.in.ngrok.io/users", {
+      return alert("Please Select Role");
+    } 
+    else {
+      console.log(register_data);
+      fetch("https://e293-103-240-35-190.in.ngrok.io/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -86,7 +87,7 @@ export default function SignUpModal() {
                 className="form_control_feedback"
                 type="invalid"
               >
-                Please Enter a Name.
+                Please Enter a Name
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
@@ -105,7 +106,7 @@ export default function SignUpModal() {
                 className="form_control_feedback"
                 type="invalid"
               >
-                Please Enter an Email.
+                Please Enter an Email
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
@@ -124,7 +125,22 @@ export default function SignUpModal() {
                 className="form_control_feedback"
                 type="invalid"
               >
-                Please Enter a Contact Number.
+                Please Enter a Contact Number
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group as={Col} controlId="validationCustomSelectUserType">
+              <Form.Label className="form_label">Select Type</Form.Label>
+              <Form.Select aria-label="Default select example" name="role" onChange={handleChange} >
+                <option>Select Role</option>
+                <option value="Customer">Customer</option>
+                <option value="Delivery Men">Delivery Men</option>
+                <option value="Restaurant Owner">Restaurant Owner</option>
+              </Form.Select>
+              <Form.Control.Feedback
+                className="form_control_feedback"
+                type="invalid"
+              >
+                Please Select a User Type
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
