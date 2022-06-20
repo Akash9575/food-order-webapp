@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
-import NavBar from "./component/NavBar";
-import DeliveryRequests from './component/DeliveryRequests';
+import NavBar from "./components/NavBar";
+import DeliveryRequests from './components/DeliveryRequests';
+import AcceptedOrders from "./components/AcceptedOrders";
 import "./App.css";
-import AcceptedOrders from "./component/AcceptedOrders";
 
 function App() {
   return (
