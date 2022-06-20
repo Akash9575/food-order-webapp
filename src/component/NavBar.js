@@ -10,7 +10,6 @@ const NavBar = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log(token)
     if (token) {
       setIsLoggedIn(true);
     }
@@ -30,21 +29,21 @@ const NavBar = () => {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              <NavLink className="navlink" to="/">
-                Home
+              <NavLink className="navlink" to="/menu">
+                Menu
               </NavLink>
               <NavLink className="navlink" to="/about">
-                About
-              </NavLink>
-              <NavLink className="navlink" to="/contact">
-                Contact
+                Request
               </NavLink>
             </Nav>
             <Nav>
               <NavLink className="navlink" to="/registerrestaurant">
                 Register Restaurant
               </NavLink>
-              {console.log(isLoggedIn)}
+              <NavLink className="navlink" to="/addItem">
+                Add Item
+              </NavLink>
+              {/* {console.log(isLoggedIn)} */}
               {isLoggedIn && (
                 <NavLink className="navlink" to="/" onClick={onLogout}>
                   Log Out
