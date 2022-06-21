@@ -213,7 +213,6 @@ const RegisterRestaurant = () => {
                   />
                 </div>
               </div>
-
               <button
                 type="submit"
                 className="restaurant_form_button"

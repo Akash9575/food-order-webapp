@@ -33,7 +33,6 @@ const DummyItemsData = [
     },
 ]
 
-
 const StoreMenu = () => {
 
     let navigate = useNavigate();
@@ -85,7 +84,7 @@ const StoreMenu = () => {
 
     const [data,setData] = useState({
       userid: '1',
-      msg: 'not register'
+      msg: 'not registers'
     })
 
     const handleRestaurnatNavigate = (event) => {
