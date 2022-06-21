@@ -1,20 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-<<<<<<< HEAD:src/components/Cart.js
 import { CartAction } from "../store/cart-slice";
-import {ShoppingCartOutlinedIcon, Modal, Button } from "../react-bootstrap/component";
-import '../styles/Cart.css';
-=======
-import { CartAction } from "../store/Cart-reducer";
-import {
-  ShoppingCartOutlinedIcon,
-  Modal,
-  Button,
-  Form,
-} from "../react-bootstrap/component";
-import { sendOrderData } from "../store/CartSendDataAction";
+import {ShoppingCartOutlinedIcon,Modal,Button,Form,} from "../react-bootstrap/component";
+import { sendOrderData } from "../store/cart-actions";
 import "../styles/Cart.css";
->>>>>>> Home:src/component/Cart.js
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [cartIsShown, setCartIsShown] = useState(false);
@@ -23,13 +13,15 @@ const Cart = () => {
 
   const handleClose = () => setCartIsShown(false);
   const handleShow = () => setCartIsShown(true);
-
   const handleForm = () => setFormIsOpen(true);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
   const items = useSelector((state) => state.cart.items);
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
   const totalCartPrice = useSelector((state) => state.cart.totalCartPrice);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const showCart = () => {
     handleShow();
@@ -65,9 +57,12 @@ const Cart = () => {
     const order = {
       items, totalQuantity, totalCartPrice, address, itemid: items[0].id
     }
-    console.log(order);
+    
+    isLoggedIn ? console.log(order) : navigate('/login');
     // dispatch(sendOrderData(order));
     setAddress('');
+    setFormIsOpen(false);
+    handleClose();
   };
 
   return (

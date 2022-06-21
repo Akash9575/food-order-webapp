@@ -5,16 +5,19 @@ import { useEffect } from "react";
 
 const Protected = ({ Component, role }) => {
   const navigate = useNavigate();
-  
-  const isLoggedIn = localStorage.getItem("token");
-  const user_role = useSelector((state) => state.auth.role);
-  console.log(user_role);
+
+  let isLoggedIn = false;
+  localStorage.getItem("token") ? isLoggedIn=true : isLoggedIn=false;
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const user_role = user.role;
 
   useEffect(() => {
     if (!isLoggedIn || (user_role !== role)) {
+      console.log(!isLoggedIn && (user_role !== role))
       navigate("/");
     }
-  }, [isLoggedIn]);
+  }, []);
   return(
     <>
       <Component />

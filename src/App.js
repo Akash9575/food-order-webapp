@@ -20,6 +20,7 @@ function App() {
   const dispatch = useDispatch();
 
   const cart = useSelector((state) => state.cart);
+  const role = useSelector((state) => state.auth.role);
 
   useEffect(() => {
     dispatch(fetchCartData());
@@ -37,7 +38,10 @@ function App() {
   return (
     <>
       <div className="App">
-        <NavBar />
+        {role === '' && <NavBar />}
+        {role === 'Restaurant Owner' && <AdminNavbar />}
+        {role === 'Customer' && <NavBar />}
+        {role === 'Delivery Men' && <AdminNavbar />}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<NavBar />} />
