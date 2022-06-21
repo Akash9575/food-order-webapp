@@ -38,3 +38,20 @@ export const fetchCartData = () => {
         }))
     }
 }
+
+export const sendOrderData =  (order) =>{
+    return async dispatch => {
+        const sendOrder = async () => {
+            const response = await fetch('https://ownredux-346ea-default-rtdb.firebaseio.com/cart.json',{
+                method:'POST',
+                body: JSON.stringify({
+                    order
+                })
+            })
+            if(!response.ok){
+                throw new Error("There is an Error Can't send order data..")
+            }
+        }
+        sendOrder();
+    }
+}
