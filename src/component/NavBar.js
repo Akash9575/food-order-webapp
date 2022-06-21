@@ -37,12 +37,12 @@ const NavBar = () => {
               </NavLink>
             </Nav>
             <Nav>
-              <NavLink className="navlink" to="/registerrestaurant">
+              {/* <NavLink className="navlink" to="/registerrestaurant">
                 Register Restaurant
               </NavLink>
               <NavLink className="navlink" to="/addItem">
                 Add Item
-              </NavLink>
+              </NavLink> */}
               {/* {console.log(isLoggedIn)} */}
               {isLoggedIn && (
                 <NavLink className="navlink" to="/" onClick={onLogout}>

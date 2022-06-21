@@ -4,7 +4,7 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Form from 'react-bootstrap/Form';
 import './StoreMenu.css'
-
+import { useNavigate } from "react-router-dom";
 
 const DummyItemsData = [
     {
@@ -36,7 +36,7 @@ const DummyItemsData = [
 
 const StoreMenu = () => {
 
-    
+    let navigate = useNavigate();
     const [showEditModal, setShowEditModal] = useState(false)
     const [validated, setValidated] = useState(false);
 
@@ -55,7 +55,6 @@ const StoreMenu = () => {
     //         })
     //     }).then(res => res.json())
     //         .then(data => setAllRestaurantItem(data))
-
     // },[])
 
     const handleSubmit = (event) => {
@@ -84,8 +83,31 @@ const StoreMenu = () => {
         setShowEditModal(true)
     }
 
+    const [data,setData] = useState({
+      userid: '1',
+      msg: 'not register'
+    })
+
+    const handleRestaurnatNavigate = (event) => {
+      navigate("../registerrestaurant");
+    }
+
+    const handleAddItemNavigate = (event) => {
+      navigate("../addItem");
+    }
+
     return (
         <>
+        {data.msg == 'not register' ?
+          <h1 style={{padding:"200px 100px", margin:"50px", backgroundColor:"gray" }}>You haven't register your restaurant
+            <div style={{padding:"20px"}}> <Button onClick={handleRestaurnatNavigate}> Register Your Restaurant</Button></div>
+          </h1>
+        :
+        <>
+        <div className='restauntMenu_header'> 
+          <h1>Your menu</h1>
+          <Button onClick={handleAddItemNavigate}>Add Item</Button>
+        </div>
         <div className='restaurantfoodItems'>
         {allRestaurantItem.map((foodItem) => (
             <Card style={{ width: '50%' }} className="m-3 menuItem">
@@ -111,13 +133,10 @@ const StoreMenu = () => {
             </Card>
             ))} 
             </div>
-
-
             {showEditModal &&
-
                 <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Edit Food Item</Modal.Title>
+                        <Modal.Title>Add Food Item</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                     <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -178,8 +197,11 @@ const StoreMenu = () => {
 
                     </Modal.Body>
                 </Modal>
-
             }
+            </>
+
+        }
+       
 
         </>
     )

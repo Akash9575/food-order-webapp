@@ -59,8 +59,6 @@ const AddItem = () => {
   
   const handleSubmit = (event) => {
     const form = event.currentTarget;
-
-   
     event.preventDefault();
 
     if (form.checkValidity() === false) {
