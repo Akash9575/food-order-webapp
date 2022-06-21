@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchCartData, sendCartData } from "./store/cart-actions";
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
 import LoginModal from "./components/LoginModal";
@@ -7,19 +9,18 @@ import SignUpModal from "./components/SignUpModal";
 import RegisterRestaurant from "./components/RegisterRestaurant";
 import Restaurant from "./components/Restaurant";
 import PendingRequest from "./components/PendingRequest";
-import AdminNavbar from "./components/AdminNavbar";
 import ApprovedRestaurants from "./components/ApprovedRestaurants";
 import Customers from "./components/Customers";
 import DeliveryMen from "./components/DeliveryMen";
 import Protected from "./Protected";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchCartData, sendCartData } from "./store/cart-actions";
-import "./App.css";
-import AddItem from "./component/AddItem";
-import StoreMenu from "./component/StoreMenu";
-import Request from "./component/Request";
+import DeliveryRequests from './components/DeliveryRequests';
+import AcceptedOrders from "./components/AcceptedOrders";
+import AddItem from "./components/AddItem";
+import StoreMenu from "./components/StoreMenu";
+import Request from "./components/Request";
 import OwnerNavBar from "./components/OwnerNavBar";
-
+import DeliveryNavbar from "./components/DeliveryNavbar";
+import "./App.css";
 
 function App() {
   const dispatch = useDispatch();
@@ -47,8 +48,8 @@ function App() {
       <div className="App">
         {role === '' && <NavBar />}
         {role === 'Restaurant Owner' && <OwnerNavBar/>}
-        {/* {role === 'Customer' && <NavBar />} */}
-        {/* {role === 'Delivery Men' && <AdminNavbar />} */}
+        {role === 'Customer' && <NavBar />}
+        {role === 'Delivery Men' && <DeliveryNavbar />}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<NavBar />} />
@@ -65,10 +66,11 @@ function App() {
           <Route path="/approvedrestaurants" element={<Protected role='Admin' Component={ApprovedRestaurants} />} />
           <Route path="/deliveryperson" element={<Protected role='Admin' Component={DeliveryMen} />} />
           <Route path="/customers" element={<Protected role='Admin' Component={Customers} />} />
+
+          <Route path='/deliveryrequests' element={<Protected role='Delivery Men' Component={DeliveryRequests}/>} />
+          <Route path='/acceptedorders' element={<Protected role='Delivery Men' Component={AcceptedOrders}/>} />
         </Routes>
       </div>
-    
-   
     </>
   );
 }

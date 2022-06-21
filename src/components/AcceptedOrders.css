@@ -1,0 +1,20 @@
+.acceptedorders__container{
+    margin: 3rem auto;
+    width: 50%;
+  }
+
+  .acceptedorder__text{
+    font-weight: 400;
+    font-size: 25px
+  }
+
+  .acceptedorder__text__container{
+    margin: 2rem;
+  }
+
+  .acceptedorders__card{
+    background-color: aqua !important;
+    border: 2px solid rgb(164, 76, 246) !important;
+    border-radius: 10px !important;
+    box-shadow: 5px 5px 10px rgb(129, 225, 249);
+  }
