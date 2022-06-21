@@ -10,5 +10,7 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Badge from 'react-bootstrap/Badge'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import NavDropdown from 'react-bootstrap/NavDropdown'
+import Table from "react-bootstrap/Table";
 
-export {Navbar, Nav, Container, Card, CardGroup, Row, Col, Badge,Button, Modal, Form, ShoppingCartOutlinedIcon};
+export {Navbar, Nav, Container, Card, CardGroup, Row, Col, Badge,Button, Modal, Form, ShoppingCartOutlinedIcon, NavDropdown, Table};

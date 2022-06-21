@@ -1,33 +1,35 @@
 import { useState } from "react";
-import { Button, Modal, Form, Row, Col } from "../react-bootstrap/component";
-import '../styles/AuthModal.css'
+import {useNavigate} from 'react-router-dom';
+import { Button, Form, Row, Col } from "../react-bootstrap/component";
 import { fetch_url } from "../urls/url";
+import '../styles/AuthModal.css'
 
 export default function SignUpModal() {
-  // const [show, setShow] = useState(true);
   const [validated, setValidated] = useState(false);
   const [register_data, setRegister_data] = useState({
     name: "",
-    contact_number: "",
     email: "",
+    contact_number: "",
+    role: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.stopPropagation();
-    }
-    else if(register_data.contact_number.length !== 10)
+    } else if (register_data.contact_number.length !== 10) {
+      return alert("Contact number Must be 10 digit");
+    } else if (register_data.password.length < 6) {
+      return alert("Password at least 6 char long");
+    } else if(register_data.role === '' || register_data.role === 'Select Role')
     {
-      return alert('Contact number Must be 10 digit')
-    }
-    else if(register_data.password.length < 6)
-    {
-      return alert('Password at least 6 char long')
-    } else {
-      // console.log(login_data);
+      return alert("Please Select Role");
+    } 
+    else {
       fetch(`${fetch_url}/users`, {
         method: "POST",
         headers: {
@@ -44,13 +46,12 @@ export default function SignUpModal() {
             alert(data.error);
           } else {
             alert(data.message);
-            // navigate("/requestprogress");
+            navigate("/login");
           }
         })
         .catch((err) => {
           console.log(err);
         });
-      // handleClose();
     }
     setValidated(true);
   };
@@ -59,8 +60,6 @@ export default function SignUpModal() {
     const { name, value } = e.target;
     setRegister_data({ ...register_data, [name]: value });
   };
-
-  // const handleClose = () => setShow(false);
 
   return (
     <>
@@ -87,7 +86,7 @@ export default function SignUpModal() {
                 className="form_control_feedback"
                 type="invalid"
               >
-                Please Enter a Name.
+                Please Enter a Name
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
@@ -106,7 +105,7 @@ export default function SignUpModal() {
                 className="form_control_feedback"
                 type="invalid"
               >
-                Please Enter an Email.
+                Please Enter an Email
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
@@ -125,7 +124,22 @@ export default function SignUpModal() {
                 className="form_control_feedback"
                 type="invalid"
               >
-                Please Enter a Contact Number.
+                Please Enter a Contact Number
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group as={Col} controlId="validationCustomSelectUserType">
+              <Form.Label className="form_label">Select Type</Form.Label>
+              <Form.Select aria-label="Default select example" name="role" onChange={handleChange} >
+                <option>Select Role</option>
+                <option value="Customer">Customer</option>
+                <option value="Delivery Men">Delivery Men</option>
+                <option value="Restaurant Owner">Restaurant Owner</option>
+              </Form.Select>
+              <Form.Control.Feedback
+                className="form_control_feedback"
+                type="invalid"
+              >
+                Please Select a User Type
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
@@ -152,79 +166,6 @@ export default function SignUpModal() {
           </Button>
         </Form>
       </div>
-
-      {/* {show && (
-        <Modal
-          show={show}
-          onHide={handleClose}
-          size="md"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <Modal.Header closeButton>
-            <Modal.Title className="mx-auto">Register</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form noValidate validated={validated} onSubmit={handleSubmit}>
-              <Row className="mb-3">
-                <Form.Group as={Col} controlId="validationCustomUsername">
-                  <Form.Label>Username</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Username"
-                      aria-describedby="inputGroupPrepend"
-                      name="username"
-                      onChange={handleChange}
-                      required
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      Please Enter a username.
-                    </Form.Control.Feedback>
-                </Form.Group>
-              </Row>
-              <Row className="mb-3">
-                <Form.Group as={Col} controlId="validationCustomEmail">
-                  <Form.Label>Email</Form.Label>
-                    <Form.Control
-                      type="email"
-                      placeholder="Email"
-                      aria-describedby="inputGroupPrepend"
-                      name="email"
-                      onChange={handleChange}
-                      required
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      Please Enter an Email.
-                    </Form.Control.Feedback>
-                </Form.Group>
-              </Row>
-              <Row className="mb-3">
-                <Form.Group as={Col} controlId="validationCustom03">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Password"
-                    name="password"
-                    onChange={handleChange}
-                    required
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please Enter a Password.
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Row>
-              <Modal.Footer>
-                <Button variant="danger" onClick={handleClose}>
-                  Close
-                </Button>
-                <Button variant="primary" type="submit">
-                  Register
-                </Button>
-              </Modal.Footer>
-            </Form>
-          </Modal.Body>
-        </Modal>
-      )} */}
     </>
   );
 }
