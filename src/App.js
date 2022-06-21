@@ -15,10 +15,16 @@ import Protected from "./Protected";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCartData, sendCartData } from "./store/cart-actions";
 import "./App.css";
+import AddItem from "./component/AddItem";
+import StoreMenu from "./component/StoreMenu";
+import Request from "./component/Request";
+import OwnerNavBar from "./components/OwnerNavBar";
+
 
 function App() {
   const dispatch = useDispatch();
 
+  const role = useSelector((state) => state.auth.role);
   const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
@@ -35,10 +41,14 @@ function App() {
 
   }, [cart, dispatch]);
 
+  
   return (
     <>
       <div className="App">
-        <NavBar />
+        {role === '' && <NavBar />}
+        {role === 'Restaurant Owner' && <OwnerNavBar/>}
+        {/* {role === 'Customer' && <NavBar />} */}
+        {/* {role === 'Delivery Men' && <AdminNavbar />} */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<NavBar />} />
@@ -46,6 +56,10 @@ function App() {
           <Route path="/login" element={<LoginModal />} />
           <Route path="/signup" element={<SignUpModal />} />
           <Route path="/:restaurant_name" element={<Restaurant />} />
+
+          <Route path="/request" element={<Protected role="Restaurant Owner" Component={Request} />}/>
+          <Route path="/menu" element={<Protected role="Restaurant Owner" Component={StoreMenu} />} />
+          <Route path="/addItem" element={<Protected role="Restaurant Owner" Component={AddItem} />} />
           <Route path="/registerrestaurant" element={<Protected role="Restaurant Owner" Component={RegisterRestaurant}/>}/>
           <Route path="/pendingrequests" element={<Protected role="Admin" Component={PendingRequest} />} />
           <Route path="/approvedrestaurants" element={<Protected role='Admin' Component={ApprovedRestaurants} />} />
@@ -53,6 +67,8 @@ function App() {
           <Route path="/customers" element={<Protected role='Admin' Component={Customers} />} />
         </Routes>
       </div>
+    
+   
     </>
   );
 }

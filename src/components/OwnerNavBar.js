@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Navbar, Nav, Container } from '../react-bootstrap/component';
-import { useDispatch, useSelector } from 'react-redux';
-import { AuthAction } from '../store/auth-slice.js'
+import {Navbar, Nav, Container} from '../react-bootstrap/component';
+import {useDispatch, useSelector} from 'react-redux';
+import {AuthAction} from '../store/auth-slice.js'
 import Cart from "./Cart";
 import "../styles/NavBar.css";
 
-const NavBar = () => {
+const OwnerNavBar = () => {
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
@@ -24,23 +24,20 @@ const NavBar = () => {
     navigate("/");
   };
 
-  return (
-    <>
 
-      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+  return (
+   <>
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
           <Navbar.Brand to="/">Food Order</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              <NavLink className="navlink" to="/">
-                Home
+              <NavLink className="navlink" to="/menu">
+                Menu
               </NavLink>
-              <NavLink className="navlink" to="/about">
-                About
-              </NavLink>
-              <NavLink className="navlink" to="/contact">
-                Contact
+              <NavLink className="navlink" to="/request">
+                Order Request
               </NavLink>
             </Nav>
             <Nav>
@@ -50,7 +47,7 @@ const NavBar = () => {
                   Log Out
                 </NavLink>
               )}
-              {!isLoggedIn && (
+              {/* {!isLoggedIn && (
                 <>
                   <NavLink className="navlink" to="/login">
                     Log In
@@ -59,15 +56,14 @@ const NavBar = () => {
                     Sign Up
                   </NavLink>
                 </>
-              )}
+              )} */}
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
+   
+   </>
+  )
+}
 
-
-    </>
-  );
-};
-
-export default NavBar;
+export default OwnerNavBar
