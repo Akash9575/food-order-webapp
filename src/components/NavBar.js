@@ -43,10 +43,7 @@ const NavBar = () => {
               </NavLink>
             </Nav>
             <Nav>
-              <NavLink className="navlink" to="/registerrestaurant">
-                Register Restaurant
-              </NavLink>
-                <Cart />
+              <Cart />
               {isLoggedIn && (
                 <NavLink className="navlink" to="/" onClick={onLogout}>
                   Log Out
