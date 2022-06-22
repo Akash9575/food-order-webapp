@@ -67,14 +67,16 @@ const Cart = () => {
       return alert("Please Add Item in Cart");
     }
     const order = {
-      items,
-      totalQuantity,
-      totalCartPrice,
       address,
-      itemid: items[0].id,
+      item_id: items[0].id,
+      status: "Pending",
+      order_obj: {...items},
+      user_id,
+      item_quantity: totalQuantity,
+      total_price: totalCartPrice,
+      delivery_id: 2
     };
-    // isLoggedIn ? console.log(order) : navigate('/login');
-    // dispatch(sendOrderData(order));
+    dispatch(sendOrderData(order));
     setAddress("");
     setFormIsOpen(false);
     handleClose();
