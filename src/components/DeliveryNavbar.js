@@ -21,7 +21,7 @@ const DeliveryNavbar = () => {
   const onLogout = () => {
     dispatch(AuthAction.removeToken());
     dispatch(AuthAction.checkLogin());
-    navigate("/");
+    navigate("/deliverrequests");
   };
 
   return (

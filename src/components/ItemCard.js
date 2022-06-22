@@ -57,8 +57,6 @@ const ItemCard = (props) => {
   const [cityViseRestaurant,setCityViseRestaurant] = useState(DummyJsonData)
   const [searchData,setSearchData] = useState(DummyJsonData)
 
-
-
   useEffect(() => {
 
       // const fetchData = async () => {
@@ -125,7 +123,6 @@ const ItemCard = (props) => {
                   }
                   <small className="text-muted">{item.restaurant_city} </small>
                   <Badge bg="warning" style={{ fontSize: '15px' }} text="dark">{item.restaurant_rating} <StarIcon fontSize="small" /></Badge>
-                
               </Card.Footer>
             </Card>
           </Col>

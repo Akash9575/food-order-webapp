@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import './AddItem.css'
 
 const AddItem = () => {
-
 
   const [validated, setValidated] = useState(false);
   const [addItemData,setAddItemData] = useState({
@@ -18,7 +16,6 @@ const AddItem = () => {
   })
 
 //   const [itemImage,setItemImage] = useState('')
-
 
   const sendItemData = async () => {
 

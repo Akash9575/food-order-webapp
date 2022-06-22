@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { CartAction } from "../store/cart-slice";
-import {ShoppingCartOutlinedIcon,Modal,Button,Form,} from "../react-bootstrap/component";
+import {
+  ShoppingCartOutlinedIcon,
+  Modal,
+  Button,
+  Form,
+} from "../react-bootstrap/component";
 import { sendOrderData } from "../store/cart-actions";
 import "../styles/Cart.css";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -9,7 +14,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 const Cart = () => {
   const [cartIsShown, setCartIsShown] = useState(false);
   const [formIsOpen, setFormIsOpen] = useState(false);
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState("");
 
   const handleClose = () => setCartIsShown(false);
   const handleShow = () => setCartIsShown(true);
@@ -17,14 +22,19 @@ const Cart = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const items = useSelector((state) => state.cart.items);
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
   const totalCartPrice = useSelector((state) => state.cart.totalCartPrice);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const showCart = () => {
-    handleShow();
+    if (isLoggedIn) {
+      handleShow();
+    } else {
+      alert("Please Login");
+      navigate("/login");
+    }
   };
 
   const removeItemHandler = (id) => {
@@ -48,19 +58,21 @@ const Cart = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if(address.length < 20)
-    {
-      return alert('Please Enter Adress 20 char long')
-    }else if(items.length === 0){
-      return alert('Please Add Item in Cart')
+    if (address.length < 20) {
+      return alert("Please Enter Adress 20 char long");
+    } else if (items.length === 0) {
+      return alert("Please Add Item in Cart");
     }
     const order = {
-      items, totalQuantity, totalCartPrice, address, itemid: items[0].id
-    }
-    
-    isLoggedIn ? console.log(order) : navigate('/login');
+      items,
+      totalQuantity,
+      totalCartPrice,
+      address,
+      itemid: items[0].id,
+    };
+    // isLoggedIn ? console.log(order) : navigate('/login');
     // dispatch(sendOrderData(order));
-    setAddress('');
+    setAddress("");
     setFormIsOpen(false);
     handleClose();
   };

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Card, Row, Col, Button } from "../react-bootstrap/component";
 import Select from 'react-select'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CartAction } from '../store/cart-slice'
 import {DummyItemsData, options} from '../constants/constant'
 import '../styles/Restaurant.css'
@@ -10,6 +10,7 @@ import '../styles/Restaurant.css'
 const Restaurant = () => {
 
     const dispatch = useDispatch()
+    const navigate = useNavigate();
     
     const location = useLocation();
     const [val, setVal] = useState(0)
@@ -17,6 +18,8 @@ const Restaurant = () => {
     const [categoriesData, setCategoriesData] = useState([])
     const [categories, setCategories] = useState('')
     const { item } = location.state
+
+    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
     useEffect(() => {
         const RestaurantItems = DummyItemsData.filter((food) => food.restaurant_id == item.restaurant_id)
@@ -40,11 +43,18 @@ const Restaurant = () => {
     }
 
     const AddItemHandler = (foodItem) => {
-        dispatch(CartAction.addItemtoCart({
-            id:foodItem.item_id,
-            title:foodItem.item_name,
-            price:foodItem.item_price
-        }))
+        if(isLoggedIn)
+        {
+            dispatch(CartAction.addItemtoCart({
+                id:foodItem.item_id,
+                title:foodItem.item_name,
+                price:foodItem.item_price
+            }))
+        }
+        else{
+            alert('Please Login');
+            navigate('/login');
+        }
       }
     return (
         <>

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialAuthState = {
+  user_id: 0,
   token: "",
   role: "",
   isLoggedIn: false,
@@ -12,7 +13,6 @@ const AuthSlice = createSlice({
   reducers: {
     setToken(state, action) {
       localStorage.setItem("token", action.payload.token);
-      console.log("hee")
       localStorage.setItem("user", JSON.stringify(action.payload.user));
       state.token = action.payload.token;
       state.role = action.payload.user.role;
@@ -29,6 +29,7 @@ const AuthSlice = createSlice({
       if (state.token) {
         const user_type = JSON.parse(localStorage.getItem("user"));
         state.role = user_type.role;
+        state.user_id = user_type.id;
         state.isLoggedIn = true;
       } else {
         state.isLoggedIn = false;

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-// import Form from 'react-bootstrap/Form'
 import { cloudinary_upload_url } from "../urls/url";
 import { fetch_url } from "../urls/url";
+import { useSelector } from "react-redux";
 import "../styles/RegisterRestaurant.css";
 
 const RegisterRestaurant = () => {
@@ -10,9 +10,11 @@ const RegisterRestaurant = () => {
   const [preview, setPreview] = useState("");
   const [restaurant_register_data, setRestaurant_register_data] = useState({});
   const [secure_url, setSecure_url] = useState("");
-  const [selectCity,setSelectCity] = useState('');
+  const [selectCity, setSelectCity] = useState("");
 
-  const HandelChange = (e) => {
+  const user_id = useSelector((state) => state.auth.user_id);
+  
+  const handleChange = (e) => {
     setImage(e.target.files[0]);
   };
 
@@ -28,33 +30,43 @@ const RegisterRestaurant = () => {
     }
 
     if (secure_url) {
-      setRestaurant_register_data({ ...restaurant_register_data, secure_url });
-      fetch(`${fetch_url}/api/v1/restaurants`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // Authorization: "Bearer " + localStorage.getItem("jwt"),
-        },
-        body: JSON.stringify({
-          restaurants: restaurant_register_data,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          // if (data.error) {
-          //   // alert(data.error);
-          // } else {
-          //   // alert(data.msg);
-          // }
+      setRestaurant_register_data({
+        ...restaurant_register_data,
+        secure_url,
+        user_id,
+      });
+      if (restaurant_register_data.secure_url) {
+        console.log(restaurant_register_data);
+        fetch(`${fetch_url}/api/v1/restaurants`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            restaurant_register_data,
+          }),
         })
-        .catch((err) => {
-          console.log(err);
-        });
+          .then((res) => {
+            res.json();
+            console.log(res);
+          })
+          .then((data) => {
+            console.log(data);
+            // if (data.error) {
+            //   // alert(data.error);
+            // } else {
+            //   // alert(data.msg);
+            // }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     }
-  }, [image, secure_url]);
+  }, [image, secure_url, restaurant_register_data.secure_url]);
 
-  console.log(restaurant_register_data);
+ 
 
   const uploadRestaurantImage = () => {
     if (image === "") return alert("Please upload image");
@@ -79,7 +91,7 @@ const RegisterRestaurant = () => {
   };
 
   const handleCity = (e) => {
-    setSelectCity(e.target.value)
+    setSelectCity(e.target.value);
   };
 
   return (
@@ -253,7 +265,7 @@ const RegisterRestaurant = () => {
                     id="fileinput"
                     type="file"
                     accept="image/*"
-                    onChange={HandelChange}
+                    onChange={handleChange}
                   />
                 </div>
               </div>

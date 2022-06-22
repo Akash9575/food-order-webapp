@@ -86,8 +86,6 @@ const Request = () => {
         
 },[])
 
-
-
  const handelAcceptOrder = (order) => {
     console.log(order)
  }
@@ -129,8 +127,6 @@ const Request = () => {
           ) : <h1>You don't have any Oreder request</h1>
           }
         </Row>
-
-
     </>
   )
 }

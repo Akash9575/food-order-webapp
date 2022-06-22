@@ -1,6 +1,6 @@
 import { useState } from "react";
 import {useNavigate} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {AuthAction} from '../store/auth-slice.js'
 import { Button, Form, Row, Col } from "../react-bootstrap/component";
 import { fetch_url } from "../urls/url";
@@ -17,6 +17,8 @@ export default function LoginModal(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const role = useSelector((state) => state.auth.role)
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -31,7 +33,10 @@ export default function LoginModal(props) {
           dispatch(AuthAction.setToken({token: res.headers.authorization, user: res.data.user}))
           dispatch(AuthAction.checkLogin());
           alert(res.data.message);
-          navigate("/");
+          // console.log(role);
+          if(role === "Restaurant Owner") navigate('/menu')
+          else if(role === "Customer") navigate('/')
+          else if(role === "Delivery Men") navigate('/deliveryrequests')
         } else {
           alert("Invalid Username or Password");
         }
