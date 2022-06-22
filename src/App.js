@@ -8,6 +8,8 @@ import { useEffect } from 'react';
 import { sendCartData } from './store/CartSendDataAction';
 import { fetchCartData } from './store/CartSendDataAction';
 import { useDispatch } from 'react-redux';
+import CustomerNavBar from "./component/CustomerNavBar";
+import { ProgressBar } from "./component/ProgressBar";
 
 function App() {
 
@@ -32,7 +34,7 @@ function App() {
 
   return (
     <div className="App">
-       <NavBar />
+       <CustomerNavBar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<NavBar />} />
@@ -41,6 +43,7 @@ function App() {
         <Route path="/login" element={<NavBar />} />
         <Route path="/signup" element={<NavBar />} />
         <Route path="/:restaurant_name" element={<Restaurant/>} />
+        <Route path="/progressbar" element={<ProgressBar />} />
       </Routes>
     </div>
   );
