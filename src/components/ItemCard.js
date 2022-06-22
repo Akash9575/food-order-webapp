@@ -3,77 +3,80 @@ import { Card, CardGroup, Row, Col , Badge } from "../react-bootstrap/component"
 import StarIcon from '@mui/icons-material/Star';
 import {useNavigate} from "react-router-dom";
 import "../styles/ItemCard.css";
+import { fetch_url } from '../urls/url';
 
-const DummyJsonData = [
-  {
-      "restaurant_id": 1,
-      "restaurant_status": 'close',
-      "restaurant_rating": '4.5',
-      "restaurant_name": "Arpit Restaurant",
-      "restaurant_address": "Balitha , Ahmedabad",
-      "restaurant_contact_number": "6351081845",
-      "restaurant_description": "Good restaurant",
-      "restaurant_city": "Ahmedabad",
-      "restaurant_email": "akash@gamail.com",
-      "restaurant_image_url": "https://b.zmtcdn.com/web_assets/81f3ff974d82520780078ba1cfbd453a1583259680.png",
-      "created_at": "2022-06-15T05:41:36.751Z",
-      "updated_at": "2022-06-15T05:41:36.751Z"
-  },
-  {
-    "restaurant_id": 2,
-    "restaurant_name": "Arpit Restaurant",
-    "restaurant_rating": '4.2',
-    "restaurant_address": "Balitha , Ahmedabad",
-    "restaurant_contact_number": "6351081845",
-    "restaurant_description": "Good restaurant",
-    "restaurant_city": "Ahmedabad",
-    "restaurant_email": "akash@gamail.com",
-    "restaurant_image_url": "https://b.zmtcdn.com/web_assets/81f3ff974d82520780078ba1cfbd453a1583259680.png",
-    "restaurant_status": 'open',
-    "created_at": "2022-06-15T05:41:36.751Z",
-    "updated_at": "2022-06-15T05:41:36.751Z"
-},
 
-  {
-      "restaurant_id": 3,
-      "restaurant_status": 'close',
-      "restaurant_rating": '3.2',
-      "restaurant_name": "Akash Restaurant",
-      "restaurant_address": "Balitha , Mumbai",
-      "restaurant_contact_number": "6351081845",
-      "restaurant_description": "Good restaurant",
-      "restaurant_city": "Mumbai",
-      "restaurant_email": "akash@gamail.com",
-      "restaurant_image_url": "https://img.freepik.com/free-photo/flat-lay-batch-cooking-composition_23-2148765597.jpg?w=2000",
-      "created_at": "2022-06-15T05:41:36.751Z",
-      "updated_at": "2022-06-15T05:41:36.751Z"
-  }
-]
+
+// const DummyJsonData = [
+//   {
+//       "restaurant_id": 1,
+//       "restaurant_status": 'close',
+//       "restaurant_rating": '4.5',
+//       "restaurant_name": "Arpit Restaurant",
+//       "restaurant_address": "Balitha , Ahmedabad",
+//       "restaurant_contact_number": "6351081845",
+//       "restaurant_description": "Good restaurant",
+//       "restaurant_city": "Ahmedabad",
+//       "restaurant_email": "akash@gamail.com",
+//       "restaurant_image_url": "https://b.zmtcdn.com/web_assets/81f3ff974d82520780078ba1cfbd453a1583259680.png",
+//       "created_at": "2022-06-15T05:41:36.751Z",
+//       "updated_at": "2022-06-15T05:41:36.751Z"
+//   },
+//   {
+//     "restaurant_id": 2,
+//     "restaurant_name": "Arpit Restaurant",
+//     "restaurant_rating": '4.2',
+//     "restaurant_address": "Balitha , Ahmedabad",
+//     "restaurant_contact_number": "6351081845",
+//     "restaurant_description": "Good restaurant",
+//     "restaurant_city": "Ahmedabad",
+//     "restaurant_email": "akash@gamail.com",
+//     "restaurant_image_url": "https://b.zmtcdn.com/web_assets/81f3ff974d82520780078ba1cfbd453a1583259680.png",
+//     "restaurant_status": 'open',
+//     "created_at": "2022-06-15T05:41:36.751Z",
+//     "updated_at": "2022-06-15T05:41:36.751Z"
+// },
+
+//   {
+//       "restaurant_id": 3,
+//       "restaurant_status": 'close',
+//       "restaurant_rating": '3.2',
+//       "restaurant_name": "Akash Restaurant",
+//       "restaurant_address": "Balitha , Mumbai",
+//       "restaurant_contact_number": "6351081845",
+//       "restaurant_description": "Good restaurant",
+//       "restaurant_city": "Mumbai",
+//       "restaurant_email": "akash@gamail.com",
+//       "restaurant_image_url": "https://img.freepik.com/free-photo/flat-lay-batch-cooking-composition_23-2148765597.jpg?w=2000",
+//       "created_at": "2022-06-15T05:41:36.751Z",
+//       "updated_at": "2022-06-15T05:41:36.751Z"
+//   }
+// ]
 
 var a = 0;
 const ItemCard = (props) => {
 
-  const [allRestaurantData,setAllRestaurantData] = useState(DummyJsonData)
-  const [cityViseRestaurant,setCityViseRestaurant] = useState(DummyJsonData)
-  const [searchData,setSearchData] = useState(DummyJsonData)
+  const [allRestaurantData,setAllRestaurantData] = useState([])
+  const [cityViseRestaurant,setCityViseRestaurant] = useState([])
+  const [searchData,setSearchData] = useState([])
 
   useEffect(() => {
 
-      // const fetchData = async () => {
-      //     const response = await fetch("link");
-      //     if(!response.ok){
-      //       throw new Error("Somthing went wrong")
-      //     }
-      //     const data = await response.json();
+      const fetchData = async () => {
+          const response = await fetch(`${fetch_url}/api/v1/restaurants`);
+          if(!response.ok){
+            throw new Error("Somthing went wrong")
+          }
+          const data = await response.json();
+          console.log(data)
+          setAllRestaurantData(data);
+          setCityViseRestaurant(data);
+          setSearchData(data);
+      }
 
-      //     setAllRestaurantData(data);
-      //     setCityViseRestaurant(data);
-      //     setSearchData(data);
-      // }
-
-      // fetchData().catch((err) => {
-      //   console.log(err)
-      // })
+      fetchData().catch((err) => {
+        console.log(err)
+      })
   },[])
 
   let navigate = useNavigate();
@@ -108,7 +111,7 @@ const ItemCard = (props) => {
             cityViseRestaurant.map((item) => 
             <Col>
             <Card className="card" onClick={() => selectRestaurant(item)}>
-              <Card.Img className='card-img-top' variant="top" src={item.restaurant_image_url} />
+              <Card.Img className='card-img-top' variant="top" src={item.secure_url} />
               <Card.Body>
                 <Card.Title>{item.restaurant_name}</Card.Title>
                 <Card.Text>
@@ -117,12 +120,12 @@ const ItemCard = (props) => {
               </Card.Body>
               <Card.Footer className="footer">
                
-                  {item.restaurant_status == 'open' ?
+                  {item.status ?
                     <Badge pill style={{ fontSize: '15px' }} bg="primary">open</Badge>
                   :  <Badge pill style={{ fontSize: '15px' }} bg="secondary">close</Badge>
                   }
                   <small className="text-muted">{item.restaurant_city} </small>
-                  <Badge bg="warning" style={{ fontSize: '15px' }} text="dark">{item.restaurant_rating} <StarIcon fontSize="small" /></Badge>
+                  {/* <Badge bg="warning" style={{ fontSize: '15px' }} text="dark">{item.restaurant_rating} <StarIcon fontSize="small" /></Badge> */}
               </Card.Footer>
             </Card>
           </Col>

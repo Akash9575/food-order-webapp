@@ -5,6 +5,7 @@ import Select from 'react-select'
 import { useDispatch, useSelector } from 'react-redux';
 import { CartAction } from '../store/cart-slice'
 import {DummyItemsData, options} from '../constants/constant'
+import { fetch_url } from '../urls/url';
 import '../styles/Restaurant.css'
 
 const Restaurant = () => {
@@ -17,14 +18,31 @@ const Restaurant = () => {
     const [allItemData, setAllItemData] = useState([])
     const [categoriesData, setCategoriesData] = useState([])
     const [categories, setCategories] = useState('')
-    const { item } = location.state
 
+    const { item } = location.state
+   
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
+    // useEffect(() => {
+    //     fetch(`${fetch_url}/api/v1/items`, {
+    //         method: "GET",
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //           Authorization:  localStorage.getItem("token") },
+    //       })
+    //       .then((res) => res.json())
+    //       .then((data) => {
+    //         // console.log(data.id)
+    //         const RestaurantItems = data.filter((food) => food.restaurant_id == item.restaurant_id)
+    //         setAllItemData(RestaurantItems)
+    //         setCategoriesData(RestaurantItems)
+    //       })
+    // },[])
+
     useEffect(() => {
-        const RestaurantItems = DummyItemsData.filter((food) => food.restaurant_id == item.restaurant_id)
-        setAllItemData(RestaurantItems)
-        setCategoriesData(RestaurantItems)
+        // const RestaurantItems = DummyItemsData.filter((food) => food.restaurant_id == item.restaurant_id)
+        setAllItemData(item.items)
+        setCategoriesData(item.items)
     }, [])
 
     useEffect(() => {
@@ -60,7 +78,7 @@ const Restaurant = () => {
         <>
             <img
                 className="background__image"
-                src={item.restaurant_image_url}
+                src={item.secure_url}
                 alt="Something Went Wrong"
             />
             <div className="header_fooditem">
@@ -68,16 +86,26 @@ const Restaurant = () => {
                 <h3>{item.restaurant_description}</h3>
             </div>
 
-            <div>
-                <Select options={options} onChange={HandleCategories} defaultValue={options[0]} />
+            <div className='foodItem_details'>
+                <div className='foodItems_category'>
+                    <h4>Select Food Category</h4>
+                    <Select options={options} onChange={HandleCategories} defaultValue={options[0]} />
+                </div>
+                <div className='restaurant_details'>
+                    <div>Restaurant address : {`${item.restaurant_address}`}</div>
+                    <div>Restaurant number : {`${item.restaurant_contact_number}`}</div>
+                    <div>Restaurant Email : {`${item.restaurant_email}`}</div>
+
+
+                </div>
             </div>
 
             <div className='foodItems'>
-                { categoriesData.map((foodItem) =>
+                { categoriesData.length > 0 ? categoriesData.map((foodItem) =>
                         <Card style={{ width: '50%' }}>
                             <Row className='no-gutters'>
                                 <Col md={5} lg={5}  >
-                                    <Card.Img variant="top" src={foodItem.item_image_url} />
+                                    <Card.Img variant="top" src={foodItem.item_secure_url} />
                                 </Col>
                                 <Col>
                                     <Card.Body>
@@ -90,7 +118,9 @@ const Restaurant = () => {
                                 </Col>
                             </Row>
                         </Card>
-                    )}
+                    )
+                : <h1> There are no item in this category</h1>
+                }
             </div>
 
         </>

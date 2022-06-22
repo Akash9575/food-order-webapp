@@ -45,5 +45,5 @@ export const options = [
   { value: "Panjabi", label: "Panjabi" },
   { value: "Gujrati", label: "Gujrati" },
   { value: "Chinese", label: "Chinese" },
-  { value: "FastFood", label: "Fast Food" },
+  { value: "fastFood", label: "Fast Food" },
 ];

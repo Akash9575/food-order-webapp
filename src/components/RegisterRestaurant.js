@@ -4,13 +4,18 @@ import { cloudinary_upload_url } from "../urls/url";
 import { fetch_url } from "../urls/url";
 import { useSelector } from "react-redux";
 import "../styles/RegisterRestaurant.css";
+import { useNavigate } from "react-router-dom";
+
 
 const RegisterRestaurant = () => {
   const [image, setImage] = useState("");
   const [preview, setPreview] = useState("");
   const [restaurant_register_data, setRestaurant_register_data] = useState({});
   const [secure_url, setSecure_url] = useState("");
-  const [selectCity, setSelectCity] = useState("");
+  const [selectCity, setSelectCity] = useState("Mumbai");
+
+  let navigate = useNavigate();
+
 
   const user_id = useSelector((state) => state.auth.user_id);
   
@@ -34,6 +39,7 @@ const RegisterRestaurant = () => {
         ...restaurant_register_data,
         secure_url,
         user_id,
+        restaurant_city: selectCity
       });
       if (restaurant_register_data.secure_url) {
         console.log(restaurant_register_data);
@@ -62,12 +68,15 @@ const RegisterRestaurant = () => {
           .catch((err) => {
             console.log(err);
           });
-      }
+          navigateMenu();
+        }
     }
   }, [image, secure_url, restaurant_register_data.secure_url]);
 
  
-
+  const navigateMenu = () => {
+    navigate("../menu");
+  }
   const uploadRestaurantImage = () => {
     if (image === "") return alert("Please upload image");
 
@@ -103,7 +112,6 @@ const RegisterRestaurant = () => {
             restaurant_email: "",
             restaurant_contact_number: "",
             restaurant_address: "",
-            restaurant_city: "",
             restaurant_description: "",
           }}
           validate={(values) => {
@@ -117,9 +125,9 @@ const RegisterRestaurant = () => {
             ) {
               errors.restaurant_contact_number = "Required";
             }
-            if (!values.restaurant_city) {
-              errors.restaurant_city = "Required";
-            }
+            // if (!values.restaurant_city) {
+            //   errors.restaurant_city = "Required";
+            // }
             if (!values.restaurant_description) {
               errors.restaurant_description = "Required";
             }
@@ -197,9 +205,8 @@ const RegisterRestaurant = () => {
                     />
                   </div>
                   <div className="restaurant_form_item">
-                    <label className="restaurant_form_label">City</label>
-                    {/* <select name="restaurant_city" aria-label="Default select example" style={{padding:"8px",width:"200px"}} onChange={handleCity}>
-                      <option>Select city</option>
+                    <label className="restaurant_form_label">Select City</label>
+                    <select  aria-label="Default select example" style={{padding:"8px",width:"200px"}} onChange={handleCity}>
                       <option value="Mumbai">Mumbai</option>
                       <option value="Delhi">Delhi</option>
                       <option value="Bengaluru">Bengaluru</option>
@@ -210,12 +217,12 @@ const RegisterRestaurant = () => {
                       <option value="Pune">Pune</option>
                       <option value="Kolkata">Kolkata</option>
                       <option value="Kochi">Kochi</option>
-                    </select> */}
-                    <Field
+                    </select>
+                    {/* <Field
                       type="text"
                       className="restaurant_form_field"
                       name="restaurant_city"
-                    />
+                    /> */}
                     <ErrorMessage
                       className="restaurant_form_error"
                       name="restaurant_city"

@@ -1,43 +1,103 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import { useSelector } from 'react-redux';
+import { cloudinary_upload_url } from "../urls/url";
+import { fetch_url } from "../urls/url";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
+
 import './AddItem.css'
 
-const AddItem = () => {
+const AddItem = (props) => {
 
+  const { state } = useLocation();
+
+  const [restaurant_id,setRestaurant_id] = useState(state);
+  let navigate = useNavigate();
+
+  const [image, setImage] = useState("");
+  const [preview, setPreview] = useState("");
+
+  const [item_secure_url, setItem_Secure_url] = useState("");
   const [validated, setValidated] = useState(false);
-  const [addItemData,setAddItemData] = useState({
-    item_name:"",
-    item_description:"",
-    item_price:"",
-    item_image:''
+
+  // const user_id = useSelector((state) => state.auth.user_id);
+
+  const [addItemData, setAddItemData] = useState({
+    item_name: "",
+    item_description: "",
+    item_price: "",
+    item_category:"fastFood",
+    item_status:"available",
+    restaurant_id: restaurant_id
+    // item_image:''
   })
 
-//   const [itemImage,setItemImage] = useState('')
+  useEffect(() => {
+    if (image) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(image);
+    } else {
+      setPreview(null);
+    }
 
-  const sendItemData = async () => {
-
-    // const formData = new FormData();
-    // formData.append('item_image', itemImage );
-
-    // setAddItemData({...addItemData,formData})
-
-    console.log(addItemData)
-    const response = await fetch('https://ownredux-346ea-default-rtdb.firebaseio.com/foodItem.json', {
-        method: 'POST',
-        body: JSON.stringify(addItemData),
-        headers:{
-          'Content-Type' : 'application/json'
-        }
+    console.log(item_secure_url)
+    if (item_secure_url) {
+      setAddItemData({
+        ...addItemData,
+        item_secure_url: item_secure_url,
       });
- }
+      if (addItemData.item_secure_url) {
+        console.log(addItemData.item_secure_url);
+        // const response = fetch('https://ownredux-346ea-default-rtdb.firebaseio.com/foodItem.json', {
+        //   method: 'POST',
+        //   body: JSON.stringify(addItemData),
+        //   headers: {
+        //     'Content-Type': 'application/json'
+        //   }
+        // });
+        navigateMenu();
+
+        fetch(`${fetch_url}/api/v1/items`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+          item_name: addItemData.item_name,
+          item_category: addItemData.item_category,
+          item_description: addItemData.item_description,
+          item_price: addItemData.item_price,
+          item_status: addItemData.item_status,
+          restaurant_id: restaurant_id,
+          item_secure_url: item_secure_url
+
+          }),
+        })
+          .then((res) => {
+            res.json();
+            console.log(res);
+          })
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
+  }, [image, item_secure_url, addItemData.item_secure_url]);
+
   const handleItemChanage = (event) => {
-
-
     setAddItemData((oldvlaue) => {
-        return {...oldvlaue,[event.target.name]:event.target.value}
+      return { ...oldvlaue, [event.target.name]: event.target.value }
     })
     // if(event.target.name == "item_image"){
 
@@ -53,31 +113,52 @@ const AddItem = () => {
 
   }
 
-  
+
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     event.preventDefault();
-
     if (form.checkValidity() === false) {
       event.stopPropagation();
-    //   event.preventDefault();
-    }else{
-        sendItemData()
-        setAddItemData({
-            item_name:"",
-            item_description:"",
-            item_price:"",
-            item_image:''
-        })
-        // form.checkValidity = true
+      //   event.preventDefault();
+    } else {
+      uploadItemImage();
+      // form.checkValidity = true
     }
     setValidated(true);
 
   };
 
-//   const handleItemImage = (e) => {
-//     setItemImage(e.target.files[0])
-//   }
+
+  const uploadItemImage = () => {
+    if (image === "") return alert("Please upload image");
+
+    const uploadfile = new FormData();
+    uploadfile.append("file", image);
+    uploadfile.append("upload_preset", "see-radio");
+    uploadfile.append("cloud_name", "abhay-parsaniya");
+    console.log(uploadfile);
+
+    fetch(cloudinary_upload_url, {
+      method: "POST",
+      body: uploadfile,
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setItem_Secure_url(result.secure_url);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleImageChanage = (e) => {
+    setImage(e.target.files[0]);
+  }
+
+  const navigateMenu = (event) => {
+    navigate("../menu");
+  }
+
 
   return (
     <Form noValidate validated={validated} onSubmit={handleSubmit} className="addItemForm">
@@ -93,7 +174,7 @@ const AddItem = () => {
             placeholder="Food item name"
           />
         </Form.Group>
-        <Form.Group as={Col} md="6" controlId="validationCustom02"> 
+        <Form.Group as={Col} md="6" controlId="validationCustom02">
           <Form.Label>Item price</Form.Label>
           <Form.Control
             required
@@ -106,11 +187,11 @@ const AddItem = () => {
         </Form.Group>
       </Row>
       <Row className="mb-12 p-4">
-      <Form.Group as={Col} md="12" controlId="validationCustom02"> 
+        <Form.Group as={Col} md="12" controlId="validationCustom02">
           <Form.Label>Food item description</Form.Label>
           <Form.Control
             required
-            value={addItemData.item_description}      
+            value={addItemData.item_description}
             onChange={handleItemChanage}
             name="item_description"
             as="textarea"
@@ -119,13 +200,38 @@ const AddItem = () => {
           />
         </Form.Group>
       </Row>
+
       <Row className="mb-12 p-4">
-      <Form.Group as={Col} md="12" controlId="validationCustom02"> 
+        <Form.Group as={Col} md="6" controlId="validationCustom02">
+           <Form.Select name="item_category" onChange={handleItemChanage}>
+          <option value="fastFood">Fast Food</option>
+          <option value="panjabi">Panjabi</option>
+          <option value="chinese">Chinese</option>
+          <option value="gujrati">Gujrati</option>
+        </Form.Select>
+        </Form.Group>
+
+        <Form.Group as={Col} md="6" controlId="validationCustom02">
+           <Form.Select name="item_categorie" onChange={handleItemChanage}>
+          <option value="available">Available</option>
+          <option value="not_available">Not available</option>
+        </Form.Select>
+        </Form.Group>
+      </Row>
+
+
+     
+      <Row className="mb-12 p-4">
+              {/* <img
+                    src={preview}
+                    alt="No Selected"
+                    className="restaurant_form_image"
+                  /> */}
+        <Form.Group as={Col} md="12" controlId="validationCustom02">
           <Form.Label>Food image</Form.Label>
           <Form.Control
             required
-            onChange={handleItemChanage}
-            value={addItemData.item_image}
+            onChange={handleImageChanage}
             name="item_image"
             accept="image/*"
             type="file"

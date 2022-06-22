@@ -8,32 +8,6 @@ import { useSelector } from "react-redux";
 import { fetch_url } from '../urls/url';
 import './StoreMenu.css'
 
-const DummyItemsData = [
-    {
-        "item_id": 1,
-        "item_name": "paneer",
-        "item_price": "20",
-        "item_category": "Panjabi",
-        "item_status": "true",
-        "item_description": "good items",
-        "item_image_url": "https://b.zmtcdn.com/web_assets/81f3ff974d82520780078ba1cfbd453a1583259680.png",
-        "created_at": "2022-06-15T05:42:15.932Z",
-        "updated_at": "2022-06-15T05:42:15.932Z",
-        "restaurant_id": 1
-    },
-    {
-        "item_id": 2,
-        "item_name": "vada pav",
-        "item_price": "20",
-        "item_category": "Gujrati",
-        "item_status": "true",
-        "item_description": "good items",
-        "item_image_url": "https://img.freepik.com/free-photo/flat-lay-batch-cooking-composition_23-2148765597.jpg?w=2000",
-        "created_at": "2022-06-15T05:42:15.932Z",
-        "updated_at": "2022-06-15T05:42:15.932Z",
-        "restaurant_id": 1
-    },
-]
 
 const StoreMenu = () => {
 
@@ -42,7 +16,8 @@ const StoreMenu = () => {
     const [showEditModal, setShowEditModal] = useState(false)
     const [validated, setValidated] = useState(false);
     const [allRestaurantItem,setAllRestaurantItem] = useState([])
-    const [register_restaurant_status, setRegister_Restaurant_Status] = useState(); 
+    const [register_restaurant_status, setRegister_Restaurant_Status] = useState();
+    const [restaurant_id, setRestaurant_id] = useState(); 
 
     const user_id = useSelector((state) => state.auth.user_id);
 
@@ -88,9 +63,8 @@ const StoreMenu = () => {
         setShowEditModal(true)
     }
 
-
     useEffect(() => {
-      console.log(user_id)
+      // console.log(user_id)
       if(user_id !== 0){
         fetch(`${fetch_url}/users/res_owner_show?user_id=${user_id}`, {
           method: "GET",
@@ -102,6 +76,7 @@ const StoreMenu = () => {
           .then((data) => {
             console.log(data);
             if (data) {
+              setRestaurant_id(data.id)
               if(data.status==false || data.status==true){
                 console.log(data.status)
                 setRegister_Restaurant_Status(data.status);
@@ -128,7 +103,7 @@ const StoreMenu = () => {
     }
 
     const handleAddItemNavigate = (event) => {
-      navigate("../addItem");
+      navigate("../addItem",{state: restaurant_id });
     }
 
     return (
@@ -141,7 +116,9 @@ const StoreMenu = () => {
         <>
           {
             register_restaurant_status === false ?
-            <h1>Your request is pandding</h1> 
+            <div className='restauntMenu_header'> 
+              <h1>Your request is pending </h1>
+            </div>
             :
             <>
             <div className='restauntMenu_header'> 
@@ -154,7 +131,7 @@ const StoreMenu = () => {
                     <Row className='no-gutters'>
                         <Col md={5} lg={5}  >
                             <Card.Img variant="top" className='menuItem_img'
-                                src={foodItem.item_image_url}
+                                src={foodItem.item_secure_url}
                             />
                         </Col>
                         <Col>
