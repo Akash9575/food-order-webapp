@@ -27,23 +27,21 @@ function App() {
 
   const cart = useSelector((state) => state.cart);
   const role = useSelector((state) => state.auth.role);
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-
+  const user = JSON.parse(localStorage.getItem("user"))
+  
   useEffect(() => {
-    dispatch(fetchCartData());
+      if(user){
+        const user_id = user.id
+        dispatch(fetchCartData(user_id));
+      }
   }, [dispatch]);
 
   useEffect(() => {
-    // if (isLoggedIn) {
-      dispatch(sendCartData(cart));
-    // } else {
-    //   alert("login");
-    // }
-    // console.log(JSON.stringify({
-    //   items:{...cart.items},
-    //   totalCartPrice:cart.totalCartPrice,
-    //   totalQuantity:cart.totalQuantity
-    // }))
+    if(user){
+      const user_id = user.id
+      dispatch(sendCartData(cart, user_id));
+    }
+    // if(user_id) dispatch(sendCartData(cart, user_id));
   }, [cart, dispatch]);
 
   return (

@@ -7,9 +7,10 @@ import {
   Button,
   Form,
 } from "../react-bootstrap/component";
+import { fetchCartData } from "../store/cart-actions";
 import { sendOrderData } from "../store/cart-actions";
+import { useNavigate } from "react-router-dom";
 import "../styles/Cart.css";
-import { Navigate, useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [cartIsShown, setCartIsShown] = useState(false);
@@ -27,10 +28,12 @@ const Cart = () => {
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
   const totalCartPrice = useSelector((state) => state.cart.totalCartPrice);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const user_id = useSelector((state) => state.auth.user_id);
 
   const showCart = () => {
     if (isLoggedIn) {
       handleShow();
+      dispatch(fetchCartData(user_id));
     } else {
       alert("Please Login");
       navigate("/login");
