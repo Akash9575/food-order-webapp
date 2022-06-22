@@ -27,7 +27,7 @@ const Home = () => {
 
       <div className="header_item">
           <button onClick={() => setShowModel(true)} className="select_city">{city}</button>
-          <input className="search" onChange={HandleSearch} /> 
+          <input className="search" onChange={HandleSearch} placeholder="Search restaurants....." /> 
       </div>
 
 
