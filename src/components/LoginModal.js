@@ -17,8 +17,6 @@ export default function LoginModal(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const role = useSelector((state) => state.auth.role)
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -28,15 +26,11 @@ export default function LoginModal(props) {
 
       axios.post(`${fetch_url}/users/sign_in`, { user: login_data })
       .then(res => {
-        console.log(res)
         if (res.status === 200) {
           dispatch(AuthAction.setToken({token: res.headers.authorization, user: res.data.user}))
           dispatch(AuthAction.checkLogin());
           alert(res.data.message);
-          // console.log(role);
-          if(role === "Restaurant Owner") navigate('/menu')
-          else if(role === "Customer") navigate('/')
-          else if(role === "Delivery Men") navigate('/deliveryrequests')
+          navigate('/');
         } else {
           alert("Invalid Username or Password");
         }

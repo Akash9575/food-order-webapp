@@ -7,9 +7,10 @@ import {
   Button,
   Form,
 } from "../react-bootstrap/component";
+import { fetchCartData } from "../store/cart-actions";
 import { sendOrderData } from "../store/cart-actions";
+import { useNavigate } from "react-router-dom";
 import "../styles/Cart.css";
-import { Navigate, useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [cartIsShown, setCartIsShown] = useState(false);
@@ -27,10 +28,12 @@ const Cart = () => {
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
   const totalCartPrice = useSelector((state) => state.cart.totalCartPrice);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const user_id = useSelector((state) => state.auth.user_id);
 
   const showCart = () => {
     if (isLoggedIn) {
       handleShow();
+      dispatch(fetchCartData(user_id));
     } else {
       alert("Please Login");
       navigate("/login");
@@ -64,14 +67,16 @@ const Cart = () => {
       return alert("Please Add Item in Cart");
     }
     const order = {
-      items,
-      totalQuantity,
-      totalCartPrice,
       address,
-      itemid: items[0].id,
+      item_id: items[0].id,
+      status: "Pending",
+      order_obj: {...items},
+      user_id,
+      item_quantity: totalQuantity,
+      total_price: totalCartPrice,
+      delivery_id: 2
     };
-    // isLoggedIn ? console.log(order) : navigate('/login');
-    // dispatch(sendOrderData(order));
+    dispatch(sendOrderData(order));
     setAddress("");
     setFormIsOpen(false);
     handleClose();
