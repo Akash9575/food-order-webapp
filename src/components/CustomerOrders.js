@@ -10,7 +10,7 @@ const CustomerOrders = () => {
 
   useEffect(() => {
     if (user_id !== 0) {
-      fetch(`${fetch_url}/api/v1/orders/?user_id=7`, {
+      fetch(`${fetch_url}/api/v1/orders/?user_id=${user_id}`, {
         mathod: "GET",
         headers: {
           Authorization: localStorage.getItem("token"),

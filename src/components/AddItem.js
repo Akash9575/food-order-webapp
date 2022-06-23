@@ -99,20 +99,7 @@ const AddItem = (props) => {
     setAddItemData((oldvlaue) => {
       return { ...oldvlaue, [event.target.name]: event.target.value }
     })
-    // if(event.target.name == "item_image"){
-
-    //     console.log(event.target.value)
-    //     setAddItemData({...addItemData, ['item_image']: event.target.files[0]})
-    // }
-    // else{
-    //     console.log("hwlo")
-    //     setAddItemData((oldvlaue) => {
-    //         return {...oldvlaue,[event.target.name]:event.target.value}
-    //     })
-    // }
-
   }
-
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
