@@ -21,6 +21,7 @@ import Request from "./components/Request";
 import OwnerNavBar from "./components/OwnerNavBar";
 import DeliveryNavbar from "./components/DeliveryNavbar";
 import "./App.css";
+import RegisterDeliveryMan from "./components/RegisterDeliveryMan";
 
 function App() {
   const dispatch = useDispatch();
@@ -103,6 +104,12 @@ function App() {
             path="/deliveryrequests"
             element={
               <Protected role="Delivery Men" Component={DeliveryRequests} />
+            }
+          />
+          <Route
+            path="/registerDeliveryMen"
+            element={
+              <Protected role="Delivery Men" Component={RegisterDeliveryMan} />
             }
           />
           <Route

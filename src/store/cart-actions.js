@@ -49,7 +49,7 @@ export const fetchCartData = (user_id) => {
         throw new Error("there is an error, can't fetch data");
       }
       const responeData = await response.json();
-      console.log(responeData);
+      // console.log(responeData);
       return responeData;
     };
     const data = await fetchData();
@@ -88,7 +88,7 @@ export const sendOrderData = (order) => {
       }
     };
     const data = await sendOrder();
-    console.log(data);
+    // console.log(data);
   };
 };
 
@@ -109,7 +109,7 @@ export const fetchPendingOrders = (user_id) => {
         throw new Error("there is an error, can't fetch data");
       }
       const responeData = await response.json();
-      console.log(responeData);
+      // console.log(responeData);
       return responeData;
     };
     const data = await fetchData();
