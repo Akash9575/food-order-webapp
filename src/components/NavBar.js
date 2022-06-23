@@ -44,9 +44,14 @@ const NavBar = () => {
             <Nav>
               <Cart />
               {isLoggedIn && (
-                <NavLink className="navlink" to="/" onClick={onLogout}>
-                  Log Out
-                </NavLink>
+                <>
+                  <NavLink className="navlink" to="/customerorders">
+                    Orders
+                  </NavLink>
+                  <NavLink className="navlink" to="/" onClick={onLogout}>
+                    Log Out
+                  </NavLink>
+                </>
               )}
               {!isLoggedIn && (
                 <>

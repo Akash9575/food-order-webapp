@@ -68,7 +68,7 @@ const Cart = () => {
     }
     const order = {
       address,
-      item_id: items[0].id,
+      restaurant_id: items[0].id,
       status: "Pending",
       order_obj: {...items},
       user_id,
