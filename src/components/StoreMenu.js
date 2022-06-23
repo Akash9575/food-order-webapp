@@ -77,7 +77,7 @@ const StoreMenu = () => {
             console.log(data);
             if (data) {
               setRestaurant_id(data.id)
-              if(data.status==false || data.status==true){
+              if(data.status===false || data.status===true){
                 console.log(data.status)
                 setRegister_Restaurant_Status(data.status);
               }
@@ -106,9 +106,22 @@ const StoreMenu = () => {
       navigate("../addItem",{state: restaurant_id });
     }
 
+    const onDelete = (item_id) => {
+      console.log(item_id);
+      fetch(`${fetch_url}/api/v1/items/${item_id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: localStorage.getItem('token')
+        },
+      })
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(err => console.log(err))
+    }
+
     return (
         <>
-        {registerMsg == 'Not registered' ?
+        {registerMsg === 'Not registered' ?
           <h1 style={{padding:"200px 100px", margin:"50px", backgroundColor:"gray" }}>You haven't register your restaurant
             <div style={{padding:"20px"}}> <Button onClick={handleRestaurnatNavigate}> Register Your Restaurant</Button></div>
           </h1>
@@ -127,6 +140,7 @@ const StoreMenu = () => {
             </div>
             <div className='restaurantfoodItems'>
             {allRestaurantItem.map((foodItem) => (
+              <>
                 <Card style={{ width: '50%' }} className="m-3 menuItem">
                     <Row className='no-gutters'>
                         <Col md={5} lg={5}  >
@@ -143,11 +157,12 @@ const StoreMenu = () => {
                                     {foodItem.item_description}
                                 </Card.Text>
                                 <ModeEditIcon color="primary" fontSize="large" onClick={handleEditItem} />
-                                <DeleteIcon fontSize="large" />
+                                <DeleteIcon fontSize="large" onClick={() => onDelete(foodItem.id)} />
                             </Card.Body>
                         </Col>
                     </Row>
                 </Card>
+              </>
                 ))} 
                 </div>
                 {showEditModal &&

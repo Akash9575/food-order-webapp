@@ -20,6 +20,7 @@ import StoreMenu from "./components/StoreMenu";
 import Request from "./components/Request";
 import OwnerNavBar from "./components/OwnerNavBar";
 import DeliveryNavbar from "./components/DeliveryNavbar";
+import CustomerOrders from './components/CustomerOrders';
 import "./App.css";
 import RegisterDeliveryMan from "./components/RegisterDeliveryMan";
 
@@ -116,6 +117,13 @@ function App() {
             path="/acceptedorders"
             element={
               <Protected role="Delivery Men" Component={AcceptedOrders} />
+            }
+          />
+
+          <Route
+            path="/customerorders"
+            element={
+              <Protected role="Customer" Component={CustomerOrders} />
             }
           />
         </Routes>

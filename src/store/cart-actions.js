@@ -17,7 +17,6 @@ export const sendCartData = (cart, user_id) => {
               totalCartPrice: cart.totalCartPrice,
               totalQuantity: cart.totalQuantity,
             },
-            //   user_id: 9
           }),
         });
         if (!response.ok) {
@@ -56,7 +55,6 @@ export const fetchCartData = (user_id) => {
 
     let cartitems = [];
     for (let key in data.cart_obj.cartitem) {
-      console.log(data.cart_obj.cartitem[key]);
       cartitems.push(data.cart_obj.cartitem[key]);
     }
     dispatch(
@@ -96,7 +94,7 @@ export const fetchPendingOrders = (user_id) => {
   return async (dispatch) => {
     const fetchData = async () => {
       const response = await fetch(
-        `${fetch_url}/api/v1/orders?item_id=${user_id}`,
+        `${fetch_url}/api/v1/orders?user_id=7`,
         {
           method: "GET",
           headers: {
@@ -106,7 +104,8 @@ export const fetchPendingOrders = (user_id) => {
         }
       );
       if (!response.ok) {
-        throw new Error("there is an error, can't fetch data");
+        // throw new Error("there is an error, can't fetch data");
+        console.log(response)
       }
       const responeData = await response.json();
       // console.log(responeData);
