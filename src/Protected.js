@@ -1,6 +1,4 @@
-import { Navigate, Route, useNavigate } from "react-router-dom";
-import Home from "./components/Home";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 const Protected = ({ Component, role }) => {
@@ -14,7 +12,6 @@ const Protected = ({ Component, role }) => {
 
   useEffect(() => {
     if (!isLoggedIn || (user_role !== role)) {
-      console.log(!isLoggedIn && (user_role !== role))
       navigate("/");
     }
   }, []);

@@ -3,7 +3,7 @@ import { Card, CardGroup, Row, Col, Badge } from "../react-bootstrap/component";
 import StarIcon from "@mui/icons-material/Star";
 import { useNavigate } from "react-router-dom";
 import "../styles/ItemCard.css";
-import { fetch_url } from "../urls/url";
+import { base_url } from "../urls/url";
 
 var a = 0;
 const ItemCard = (props) => {
@@ -13,7 +13,7 @@ const ItemCard = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`${fetch_url}/api/v1/restaurants`);
+      const response = await fetch(`${base_url}/api/v1/restaurants`);
       if (!response.ok) {
         throw new Error("Somthing went wrong");
       }
@@ -42,7 +42,6 @@ const ItemCard = (props) => {
   }, [props.city]);
 
   useEffect(() => {
-    console.log(props.search);
     let matches = searchData.filter((item) => {
       return item.restaurant_name
         .toLowerCase()
@@ -59,8 +58,8 @@ const ItemCard = (props) => {
     <>
       <Row xs={1} md={2} lg={3} className="g-4 cardgroup__container">
         {cityViseRestaurant.length > 0 ? (
-          cityViseRestaurant.map((item) => (
-            <Col>
+          cityViseRestaurant.map((item, index) => (
+            <Col key={index}>
               <Card className="card" onClick={() => selectRestaurant(item)}>
                 <Card.Img
                   className="card-img-top"
@@ -68,8 +67,8 @@ const ItemCard = (props) => {
                   src={item.secure_url}
                 />
                 <Card.Body>
-                  <Card.Title>{item.restaurant_name}</Card.Title>
-                  <Card.Text>{item.restaurant_description}</Card.Text>
+                  <Card.Title className="h3">{item.restaurant_name}</Card.Title>
+                  <Card.Text className="h6">{item.restaurant_description}</Card.Text>
                 </Card.Body>
                 <Card.Footer className="footer">
                   {item.status ? (
@@ -82,7 +81,6 @@ const ItemCard = (props) => {
                     </Badge>
                   )}
                   <small className="text-muted">{item.restaurant_city} </small>
-                  {/* <Badge bg="warning" style={{ fontSize: '15px' }} text="dark">{item.restaurant_rating} <StarIcon fontSize="small" /></Badge> */}
                 </Card.Footer>
               </Card>
             </Col>

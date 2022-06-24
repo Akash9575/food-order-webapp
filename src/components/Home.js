@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import ItemCard from "./ItemCard";
-import {Modal} from '../react-bootstrap/component'
 import "../styles/Home.css";
 
 const Home = () => {
@@ -79,7 +78,6 @@ const Home = () => {
               <img src="//in.bmscdn.com/m6/images/common-modules/regions/koch.png" alt="KOCH" name="Kochi" onClick={selectCity} />
               <div >Kochi</div>
           </div>
-          {/* <h2 onClick={() => setShowModel(false)}> close</h2> */}
         </div>
       </div>
       </>

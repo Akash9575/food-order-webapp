@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Navbar, Nav, Container } from "../react-bootstrap/component";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthAction } from "../store/auth-slice.js";
-import Cart from "./Cart";
+import Cart from "./Customer/Cart";
 import "../styles/NavBar.css";
 
 const NavBar = () => {
@@ -33,12 +33,6 @@ const NavBar = () => {
             <Nav className="me-auto">
               <NavLink className="navlink" to="/">
                 Home
-              </NavLink>
-              <NavLink className="navlink" to="/about">
-                About
-              </NavLink>
-              <NavLink className="navlink" to="/contact">
-                Contact
               </NavLink>
             </Nav>
             <Nav>

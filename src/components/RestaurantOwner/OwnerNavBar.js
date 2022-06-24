@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Navbar, Nav, Container } from '../react-bootstrap/component';
-import { useDispatch, useSelector } from 'react-redux';
-import { AuthAction } from '../store/auth-slice.js'
-import Cart from "./Cart";
-import "../styles/NavBar.css";
+import {Navbar, Nav, Container} from '../../react-bootstrap/component';
+import {useDispatch, useSelector} from 'react-redux';
+import {AuthAction} from '../../store/auth-slice.js'
+import "../../styles/NavBar.css";
 
-const DeliveryNavbar = () => {
+const OwnerNavBar = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
   useEffect(() => {
@@ -21,25 +19,25 @@ const DeliveryNavbar = () => {
   const onLogout = () => {
     dispatch(AuthAction.removeToken());
     dispatch(AuthAction.checkLogin());
-    navigate("/deliverrequests");
+    navigate("/menu");
   };
 
   return (
-    <>
-      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+   <>
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
           <Navbar.Brand to="/">Food Order</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto">     
+            <Nav className="me-auto">
+              <NavLink className="navlink" to="/menu">
+                Menu
+              </NavLink>
+              <NavLink className="navlink" to="/request">
+                Order Request
+              </NavLink>
             </Nav>
             <Nav>
-              <NavLink className="navlink" to="/deliveryrequests">
-                Delivery Request
-              </NavLink>
-              <NavLink className="navlink" to="/acceptedorders">
-                Accepted Orders
-              </NavLink>
               {isLoggedIn && (
                 <NavLink className="navlink" to="/" onClick={onLogout}>
                   Log Out
@@ -49,8 +47,9 @@ const DeliveryNavbar = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </>
-  );
-};
+   
+   </>
+  )
+}
 
-export default DeliveryNavbar;
+export default OwnerNavBar

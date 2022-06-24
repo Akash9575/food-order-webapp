@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
+import Select from "react-select";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Card, Row, Col, Button } from "../react-bootstrap/component";
-import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import { CartAction } from "../store/cart-slice";
-import { DummyItemsData, options } from "../constants/constant";
-import { fetch_url } from "../urls/url";
+import { options } from "../constants/constant";
 import "../styles/Restaurant.css";
+import { toast } from "react-toastify";
+toast.configure();
 
 const Restaurant = () => {
   const dispatch = useDispatch();
@@ -22,24 +23,7 @@ const Restaurant = () => {
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
-  // useEffect(() => {
-  //     fetch(`${fetch_url}/api/v1/items`, {
-  //         method: "GET",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization:  localStorage.getItem("token") },
-  //       })
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         // console.log(data.id)
-  //         const RestaurantItems = data.filter((food) => food.restaurant_id == item.restaurant_id)
-  //         setAllItemData(RestaurantItems)
-  //         setCategoriesData(RestaurantItems)
-  //       })
-  // },[])
-
   useEffect(() => {
-    // const RestaurantItems = DummyItemsData.filter((food) => food.restaurant_id == item.restaurant_id)
     setAllItemData(item.items);
     setCategoriesData(item.items);
   }, []);
@@ -62,11 +46,6 @@ const Restaurant = () => {
 
   const AddItemHandler = (foodItem) => {
     if (isLoggedIn) {
-      console.log({
-        id: foodItem.item_id,
-        title: foodItem.item_name,
-        price: foodItem.item_price,
-      });
       dispatch(
         CartAction.addItemtoCart({
           id: foodItem.id,
@@ -75,7 +54,10 @@ const Restaurant = () => {
         })
       );
     } else {
-      alert("Please Login");
+      toast.error('Please Login', {
+        theme: "colored",
+        type: "error",
+      });
       navigate("/login");
     }
   };
@@ -100,10 +82,11 @@ const Restaurant = () => {
             defaultValue={options[0]}
           />
         </div>
-        <div className="restaurant_details">
-          <div>Restaurant address : {`${item.restaurant_address}`}</div>
-          <div>Restaurant number : {`${item.restaurant_contact_number}`}</div>
-          <div>Restaurant Email : {`${item.restaurant_email}`}</div>
+        <div className="restaurant_details p-3 m-2">
+        <h5>Restaurant address : <span>{`${item.restaurant_address}`}</span></h5>
+        <h5>Restaurant number : <span>{`${item.restaurant_contact_number}`}</span></h5>
+        <h5>Restaurant Email : <span>{`${item.restaurant_email}`}</span></h5>
+          
         </div>
       </div>
 
@@ -112,7 +95,6 @@ const Restaurant = () => {
           categoriesData.map((foodItem) => {
             return (
               <>
-                {console.log(foodItem)}
                 <Card style={{ width: "50%" }}>
                   <Row className="no-gutters">
                     <Col md={5} lg={5}>
@@ -120,7 +102,7 @@ const Restaurant = () => {
                     </Col>
                     <Col>
                       <Card.Body>
-                        <Card.Title>{foodItem.item_name}</Card.Title>
+                        <Card.Title><b>{foodItem.item_name}</b></Card.Title>
                         <Card.Text>{foodItem.item_description}</Card.Text>
                         <Card.Text>
                           ${foodItem.item_price}

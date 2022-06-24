@@ -16,9 +16,6 @@
 
 .card:hover{
     box-shadow: 10px 10px 5px rgb(124, 122, 122);
-    /* width: 100px; */
-    
-    /* margin-top: -10px; */
 }
 
 .card-img-top{

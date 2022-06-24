@@ -1,8 +1,10 @@
 import { useState } from "react";
 import {useNavigate} from 'react-router-dom';
-import { Button, Form, Row, Col } from "../react-bootstrap/component";
-import { fetch_url } from "../urls/url";
-import '../styles/AuthModal.css'
+import { Button, Form, Row, Col } from "../../react-bootstrap/component";
+import { base_url } from "../../urls/url";
+import "../../styles/AuthModal.css";
+import { toast } from "react-toastify";
+toast.configure();
 
 export default function SignUpModal() {
   const [validated, setValidated] = useState(false);
@@ -22,15 +24,24 @@ export default function SignUpModal() {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else if (register_data.contact_number.length !== 10) {
-      return alert("Contact number Must be 10 digit");
+      return  toast.error('Contact number Must be 10 digit', {
+        theme: "colored",
+        type: "error",
+      });
     } else if (register_data.password.length < 6) {
-      return alert("Password at least 6 char long");
+      return  toast.error('Password at least 6 char long', {
+        theme: "colored",
+        type: "error",
+      });
     } else if(register_data.role === '' || register_data.role === 'Select Role')
     {
-      return alert("Please Select Role");
+      return toast.error('Please Select Role', {
+        theme: "colored",
+        type: "error",
+      });
     } 
     else {
-      fetch(`${fetch_url}/users`, {
+      fetch(`${base_url}/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,11 +52,16 @@ export default function SignUpModal() {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           if (data.error) {
-            alert(data.error);
+            toast.error(data.error, {
+              theme: "colored",
+              type: "error",
+            });
           } else {
-            alert(data.message);
+            toast.success(data.message, {
+              theme: "colored",
+              type: "success",
+            });
             navigate("/login");
           }
         })

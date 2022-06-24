@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { cloudinary_upload_url } from "../urls/url";
-import { fetch_url } from "../urls/url";
+import { base_url, cloudinary_upload_url } from "../../urls/url";
 import { useSelector } from "react-redux";
-import "../styles/RegisterRestaurant.css";
+import "../../styles/RegisterRestaurant.css";
 import { useNavigate } from "react-router-dom";
-
+import { toast } from "react-toastify";
+toast.configure();
 
 const RegisterRestaurant = () => {
   const [image, setImage] = useState("");
@@ -42,12 +42,11 @@ const RegisterRestaurant = () => {
         restaurant_city: selectCity
       });
       if (restaurant_register_data.secure_url) {
-        console.log(restaurant_register_data);
-        fetch(`${fetch_url}/api/v1/restaurants`, {
+        fetch(`${base_url}/api/v1/restaurants`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
+            Authorization:  localStorage.getItem("token"),
           },
           body: JSON.stringify({
             restaurant_register_data,
@@ -55,15 +54,9 @@ const RegisterRestaurant = () => {
         })
           .then((res) => {
             res.json();
-            console.log(res);
           })
           .then((data) => {
             console.log(data);
-            // if (data.error) {
-            //   // alert(data.error);
-            // } else {
-            //   // alert(data.msg);
-            // }
           })
           .catch((err) => {
             console.log(err);
@@ -78,13 +71,15 @@ const RegisterRestaurant = () => {
     navigate("../menu");
   }
   const uploadRestaurantImage = () => {
-    if (image === "") return alert("Please upload image");
+    if (image === "") return toast.error('Please upload image', {
+      theme: "colored",
+      type: "error",
+    }); 
 
     const uploadfile = new FormData();
     uploadfile.append("file", image);
     uploadfile.append("upload_preset", "see-radio");
     uploadfile.append("cloud_name", "abhay-parsaniya");
-    console.log(uploadfile);
 
     fetch(cloudinary_upload_url, {
       method: "POST",

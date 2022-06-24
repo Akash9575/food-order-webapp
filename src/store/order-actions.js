@@ -1,11 +1,11 @@
 import { OrderAction } from "./order-slice";
-import { fetch_url } from "../urls/url";
+import { base_url } from "../urls/url";
 
 export const fetchPendingOrders = (user_id) => {
   return async (dispatch) => {
     const fetchData = async () => {
       const response = await fetch(
-        `${fetch_url}/api/v1/orders?user_id=7`,
+        `${base_url}/api/v1/orders?user_id=${user_id}`,
         {
           method: "GET",
           headers: {
@@ -15,8 +15,7 @@ export const fetchPendingOrders = (user_id) => {
         }
       );
       if (!response.ok) {
-        // throw new Error("there is an error, can't fetch data");
-        console.log(response)
+        throw new Error("there is an error, can't fetch data");
       }
       const responeData = await response.json();
       return responeData;

@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { CartAction } from "../store/cart-slice";
+import { CartAction } from "../../store/cart-slice";
 import {
   ShoppingCartOutlinedIcon,
   Modal,
   Button,
   Form,
-} from "../react-bootstrap/component";
-import { fetchCartData } from "../store/cart-actions";
-import { sendOrderData } from "../store/cart-actions";
+} from "../../react-bootstrap/component";
+import { fetchCartData, sendOrderData  } from "../../store/cart-actions";
 import { useNavigate } from "react-router-dom";
-import "../styles/Cart.css";
+import "../../styles/Cart.css";
+import { toast } from "react-toastify";
+toast.configure();
 
 const Cart = () => {
   const [cartIsShown, setCartIsShown] = useState(false);
@@ -35,7 +36,10 @@ const Cart = () => {
       handleShow();
       dispatch(fetchCartData(user_id));
     } else {
-      alert("Please Login");
+      toast.error('Please Login', {
+        theme: "colored",
+        type: "error",
+      });
       navigate("/login");
     }
   };
@@ -62,9 +66,15 @@ const Cart = () => {
     e.preventDefault();
 
     if (address.length < 20) {
-      return alert("Please Enter Adress 20 char long");
+      return toast.error('Please Enter Address 20 Charactor Long', {
+        theme: "colored",
+        type: "error",
+      });
     } else if (items.length === 0) {
-      return alert("Please Add Item in Cart");
+      return toast.error('Please Add Item In Cart', {
+        theme: "colored",
+        type: "error",
+      });
     }
     const order = {
       address,
@@ -74,7 +84,6 @@ const Cart = () => {
       user_id,
       item_quantity: totalQuantity,
       total_price: totalCartPrice,
-      delivery_id: 2
     };
     dispatch(sendOrderData(order));
     setAddress("");
@@ -84,7 +93,7 @@ const Cart = () => {
 
   return (
     <>
-      <ShoppingCartOutlinedIcon style={{ color: "white" }} onClick={showCart} />
+      <ShoppingCartOutlinedIcon style={{ color: "white" }} onClick={showCart} /><sup className="text-white"><h6>{totalQuantity}</h6></sup>
 
       <Modal
         show={cartIsShown}
@@ -100,7 +109,7 @@ const Cart = () => {
           {items.map((item) => {
             const { id, price, totalPrice, name, quantity } = item;
             return (
-              <li className="item">
+              <li className="item" key={id}>
                 <header>
                   <h3>{name}</h3>
                   <div className="price">

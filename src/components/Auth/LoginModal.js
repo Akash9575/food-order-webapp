@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { AuthAction } from "../store/auth-slice.js";
-import { Button, Form, Row, Col } from "../react-bootstrap/component";
-import { fetch_url } from "../urls/url";
+import { useDispatch } from "react-redux";
+import { AuthAction } from "../../store/auth-slice.js";
+import { Button, Form, Row, Col } from "../../react-bootstrap/component";
+import { base_url } from "../../urls/url";
 import axios from "axios";
-import "../styles/AuthModal.css";
+import "../../styles/AuthModal.css";
+import { toast } from "react-toastify";
+toast.configure();
 
 export default function LoginModal(props) {
   const [validated, setValidated] = useState(false);
@@ -17,8 +19,13 @@ export default function LoginModal(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const role = useSelector((state) => state.auth.role);
-  console.log(role);
+  const checkUserRole = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user.role === "Customer") navigate("/");
+    else if (user.role === "Restaurant Owner") navigate("/menu");
+    else if (user.role === "Delivery Men") navigate("/registerDeliveryMen")
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -27,7 +34,7 @@ export default function LoginModal(props) {
       event.stopPropagation();
     } else {
       axios
-        .post(`${fetch_url}/users/sign_in`, { user: login_data })
+        .post(`${base_url}/users/sign_in`, { user: login_data })
         .then((res) => {
           if (res.status === 200) {
             dispatch(
@@ -37,18 +44,18 @@ export default function LoginModal(props) {
               })
             );
             dispatch(AuthAction.checkLogin());
-            alert(res.data.message);
-            {
-              const user = localStorage.getItem("user");
-              console.log(user.role);
+            if (res.data.error) {
+              toast.error(res.data.error, {
+                theme: "colored",
+                type: "error",
+              });
+            } else {
+              toast.success(res.data.message, {
+                theme: "colored",
+                type: "success",
+              });
+              checkUserRole();
             }
-            if (role === "Customer") {
-              navigate("/");
-            } else if (role === "Restaurant Owner") {
-              navigate("/menu");
-            } else if (role === "Delivery Men") navigate("/deliveryrequests");
-          } else {
-            alert("Invalid Username or Password");
           }
         })
         .catch((err) => console.log(err));
@@ -70,7 +77,7 @@ export default function LoginModal(props) {
           validated={validated}
           onSubmit={handleSubmit}
         >
-          <h1 className="mb-5">Login</h1>
+          <h1 className="mb-5">LogIn</h1>
           <Row className="my-3">
             <Form.Group as={Col} controlId="validationCustomUsername">
               <Form.Label className="form_label">Username</Form.Label>

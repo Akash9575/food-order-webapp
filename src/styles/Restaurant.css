@@ -9,7 +9,7 @@
     width: 500px;
     top: 30%;
     left: 35%;
-    background-color: rgb(234, 209, 209);
+    background-color: rgb(209, 234, 214);
     padding: 30px;
     border-radius: 5px;
     z-index: 1;
@@ -18,7 +18,7 @@
 .foodItems_category{
     width: 50%;
     padding: 20px;
-    background-color: #ffebcd;
+    background-color: #98e780;
     border-radius: 10px;
 }
 
@@ -32,6 +32,6 @@
 .restaurant_details{
     width: 40%;
     padding: 20px;
-    background-color: #ffebcd !important;
+    background-color: #98e780!important;
     border-radius: 10px;
 }

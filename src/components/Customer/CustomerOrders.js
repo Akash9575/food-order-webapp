@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Card, Button, Badge } from "../react-bootstrap/component";
-import { fetch_url } from "../urls/url";
+import { Row, Col, Card, Button, Badge } from "../../react-bootstrap/component";
+import { base_url } from "../../urls/url";
 import { useSelector } from "react-redux";
 
 const CustomerOrders = () => {
@@ -10,7 +10,7 @@ const CustomerOrders = () => {
 
   useEffect(() => {
     if (user_id !== 0) {
-      fetch(`${fetch_url}/api/v1/orders/?user_id=${user_id}`, {
+      fetch(`${base_url}/api/v1/orders/?user_id=${user_id}`, {
         mathod: "GET",
         headers: {
           Authorization: localStorage.getItem("token"),
@@ -25,7 +25,9 @@ const CustomerOrders = () => {
   return (
     <>
       {customer_orders.length === 0 ? (
-        <h1>You have not placed any order</h1>
+        <div className="bg-info p-5 m-5 w-50 mx-auto">
+        <h1>No Orders Available</h1>
+        </div>
       ) : (
         <Row xs={1} md={2} lg={3} className=" m-3 g-4">
           {customer_orders.map((customer_order) => (
@@ -41,8 +43,8 @@ const CustomerOrders = () => {
                       {customer_order.status}
                     </Badge>
                   </Card.Text>
-                  <Card.Text>Time : {customer_order.created_at}</Card.Text>
-                  <Card.Text>Order Items : </Card.Text>
+                  {/* <Card.Text>Time : {customer_order.created_at}</Card.Text> */}
+                  {/* <Card.Text>Order Items : </Card.Text> */}
                   <Card.Text>
                     Total Items : {customer_order.item_quantity}
                   </Card.Text>
