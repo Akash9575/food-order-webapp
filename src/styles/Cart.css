@@ -3,6 +3,7 @@
   background-color: #b1acac;
   padding: 1rem;
   list-style: none;
+  border-radius: 10px;
 }
 
 .item h3 {

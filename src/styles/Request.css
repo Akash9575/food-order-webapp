@@ -1,9 +1,9 @@
 .request_row{
     padding: 40px;
-    width: 100%;
-    justify-content: center;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .request_card{
-    background-color: rgb(212, 233, 233) !important;
+    background-color: rgb(183, 226, 226) !important;
 }

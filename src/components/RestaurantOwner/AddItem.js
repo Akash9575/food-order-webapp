@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import { cloudinary_upload_url, base_url } from "../../urls/url";
 import { useNavigate, useLocation } from "react-router-dom";
+import { FOOD_CATEGORY, FOOD_TYPE } from "../../constants/constant";
+import { cloudinary_upload_url, base_url } from "../../urls/url";
+import { Button, Col, Form, Row } from "../../react-bootstrap/component";
 import "../../styles/AddItem.css";
 import { toast } from "react-toastify";
 toast.configure();
@@ -26,7 +24,7 @@ const AddItem = (props) => {
     item_description: "",
     item_price: "",
     item_category: "fastFood",
-    item_status: "available",
+    item_status: "veg",
     restaurant_id: restaurant_id,
   });
 
@@ -66,16 +64,13 @@ const AddItem = (props) => {
         })
           .then((res) => res.json())
           .then((data) => {
-            if(data)
-            {
-              
-              toast.success('Item Added Successfully !!', {
+            if (data) {
+              toast.success("Item Added Successfully !!", {
                 theme: "colored",
                 type: "success",
               });
-            }
-            else{
-              toast.error('Item Not Added', {
+            } else {
+              toast.error("Item Not Added", {
                 theme: "colored",
                 type: "error",
               });
@@ -94,7 +89,7 @@ const AddItem = (props) => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const onSubmit = (event) => {
     const form = event.currentTarget;
     event.preventDefault();
     if (form.checkValidity() === false) {
@@ -106,10 +101,11 @@ const AddItem = (props) => {
   };
 
   const uploadItemImage = () => {
-    if (image === "") return  toast.error('Please upload image', {
-      theme: "colored",
-      type: "error",
-    });
+    if (image === "")
+      return toast.error("Please Upload Image", {
+        theme: "colored",
+        type: "error",
+      });
 
     const uploadfile = new FormData();
     uploadfile.append("file", image);
@@ -141,12 +137,13 @@ const AddItem = (props) => {
     <Form
       noValidate
       validated={validated}
-      onSubmit={handleSubmit}
+      onSubmit={onSubmit}
       className="addItemForm"
     >
+    <h3 className="mt-3">Item Details</h3>
       <Row className="mb-3 p-4">
         <Form.Group as={Col} md="6" controlId="validationCustom01">
-          <Form.Label>Food item name</Form.Label>
+          <Form.Label>Food Item Name</Form.Label>
           <Form.Control
             value={addItemData.item_name}
             required
@@ -157,7 +154,7 @@ const AddItem = (props) => {
           />
         </Form.Group>
         <Form.Group as={Col} md="6" controlId="validationCustom02">
-          <Form.Label>Item price</Form.Label>
+          <Form.Label>Item Price</Form.Label>
           <Form.Control
             required
             value={addItemData.item_price}
@@ -170,7 +167,7 @@ const AddItem = (props) => {
       </Row>
       <Row className="mb-12 p-4">
         <Form.Group as={Col} md="12" controlId="validationCustom02">
-          <Form.Label>Food item description</Form.Label>
+          <Form.Label>Food Item Description</Form.Label>
           <Form.Control
             required
             value={addItemData.item_description}
@@ -185,25 +182,28 @@ const AddItem = (props) => {
 
       <Row className="mb-12 p-4">
         <Form.Group as={Col} md="6" controlId="validationCustom02">
+        <Form.Label>Item Category</Form.Label>
           <Form.Select name="item_category" onChange={handleItemChanage}>
-            <option value="fastFood">Fast Food</option>
-            <option value="panjabi">Punjabi</option>
-            <option value="chinese">Chinese</option>
-            <option value="gujrati">Gujarati</option>
+  
+            {FOOD_CATEGORY.map((foodoption) => (
+              <option value={foodoption.value}>{foodoption.label}</option>
+            ))}
           </Form.Select>
         </Form.Group>
 
         <Form.Group as={Col} md="6" controlId="validationCustom02">
+        <Form.Label>Item Type</Form.Label>
           <Form.Select name="item_categorie" onChange={handleItemChanage}>
-            <option value="available">Available</option>
-            <option value="not_available">Not available</option>
+            {FOOD_TYPE.map((foodtype) => (
+              <option value={foodtype.value}>{foodtype.label}</option>
+            ))}
           </Form.Select>
         </Form.Group>
       </Row>
 
       <Row className="mb-12 p-4">
         <Form.Group as={Col} md="12" controlId="validationCustom02">
-          <Form.Label>Food image</Form.Label>
+          <Form.Label>Food Image</Form.Label>
           <Form.Control
             required
             onChange={handleImageChanage}
@@ -214,8 +214,8 @@ const AddItem = (props) => {
           />
         </Form.Group>
       </Row>
-      <Button className="m-4" type="submit">
-        Submit form
+      <Button variant="dark" className="m-4" type="submit">
+        Add Item
       </Button>
     </Form>
   );

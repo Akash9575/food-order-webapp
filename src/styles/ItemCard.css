@@ -28,4 +28,5 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: rgb(232, 229, 229) !important;
 }

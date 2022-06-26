@@ -12,5 +12,6 @@ import Badge from 'react-bootstrap/Badge'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import Table from "react-bootstrap/Table";
+import Carousel from 'react-bootstrap/Carousel';
 
-export {Navbar, Nav, Container, Card, CardGroup, Row, Col, Badge,Button, Modal, Form, ShoppingCartOutlinedIcon, NavDropdown, Table};
+export {Navbar, Nav, Container, Card, CardGroup, Row, Col, Badge,Button, Modal, Form, ShoppingCartOutlinedIcon, NavDropdown, Table, Carousel};

@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { AuthAction } from "../../store/auth-slice.js";
-import { Button, Form, Row, Col } from "../../react-bootstrap/component";
+import { AuthAction } from "../../store/slices/auth-slice";
 import { base_url } from "../../urls/url";
 import axios from "axios";
+import { USER_ROLES, END_POINTS } from "../../constants/constant";
+import { Button, Form, Row, Col } from "../../react-bootstrap/component";
 import "../../styles/AuthModal.css";
 import { toast } from "react-toastify";
 toast.configure();
@@ -22,9 +23,9 @@ export default function LoginModal(props) {
   const checkUserRole = () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
-    if (user.role === "Customer") navigate("/");
-    else if (user.role === "Restaurant Owner") navigate("/menu");
-    else if (user.role === "Delivery Men") navigate("/registerDeliveryMen")
+    if (user.role === USER_ROLES.CUSTOMER) navigate(END_POINTS.BASE);
+    else if (user.role === USER_ROLES.RESTURANT_OWNER) navigate(END_POINTS.RESTAURANT_MENU);
+    else if (user.role === USER_ROLES.DELIVERY_MEN) navigate(END_POINTS.REGISTER_DELIVERY_MEN);
   };
 
   const handleSubmit = (event) => {
@@ -72,18 +73,18 @@ export default function LoginModal(props) {
     <>
       <div className="form_container">
         <Form
-          className="form"
+          className="form w-25"
           noValidate
           validated={validated}
           onSubmit={handleSubmit}
         >
-          <h1 className="mb-5">LogIn</h1>
-          <Row className="my-3">
+          <h1 className="mb-5">Log In</h1>
+          <Row className="my-5">
             <Form.Group as={Col} controlId="validationCustomUsername">
-              <Form.Label className="form_label">Username</Form.Label>
+              {/* <Form.Label className="form_label">Email</Form.Label> */}
               <Form.Control
-                type="text"
-                placeholder="Username"
+                type="email"
+                placeholder="Email"
                 aria-describedby="inputGroupPrepend"
                 name="email"
                 onChange={handleChange}
@@ -97,9 +98,9 @@ export default function LoginModal(props) {
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
-          <Row className="my-3">
+          <Row className="my-5">
             <Form.Group as={Col} controlId="validationCustom03">
-              <Form.Label className="form_label">Password</Form.Label>
+              {/* <Form.Label className="form_label">Password</Form.Label> */}
               <Form.Control
                 type="password"
                 placeholder="Password"
@@ -115,7 +116,7 @@ export default function LoginModal(props) {
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
-          <Button variant="success" type="submit">
+          <Button variant="dark" className="px-5 py-2" type="submit">
             Login
           </Button>
         </Form>

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { base_url, cloudinary_upload_url } from "../../urls/url";
-import { useSelector } from "react-redux";
-import "../../styles/RegisterRestaurant.css";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { CITY_OPTIONS } from "../../constants/constant";
+import { base_url, cloudinary_upload_url } from "../../urls/url";
+import "../../styles/RegisterRestaurant.css";
 import { toast } from "react-toastify";
 toast.configure();
 
@@ -16,9 +17,8 @@ const RegisterRestaurant = () => {
 
   let navigate = useNavigate();
 
-
   const user_id = useSelector((state) => state.auth.user_id);
-  
+
   const handleChange = (e) => {
     setImage(e.target.files[0]);
   };
@@ -39,14 +39,14 @@ const RegisterRestaurant = () => {
         ...restaurant_register_data,
         secure_url,
         user_id,
-        restaurant_city: selectCity
+        restaurant_city: selectCity,
       });
       if (restaurant_register_data.secure_url) {
         fetch(`${base_url}/api/v1/restaurants`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization:  localStorage.getItem("token"),
+            Authorization: localStorage.getItem("token"),
           },
           body: JSON.stringify({
             restaurant_register_data,
@@ -57,24 +57,24 @@ const RegisterRestaurant = () => {
           })
           .then((data) => {
             console.log(data);
+            navigateMenu();
           })
           .catch((err) => {
             console.log(err);
           });
-          navigateMenu();
-        }
+      }
     }
   }, [image, secure_url, restaurant_register_data.secure_url]);
 
- 
   const navigateMenu = () => {
     navigate("../menu");
-  }
+  };
   const uploadRestaurantImage = () => {
-    if (image === "") return toast.error('Please upload image', {
-      theme: "colored",
-      type: "error",
-    }); 
+    if (image === "")
+      return toast.error("Please upload image", {
+        theme: "colored",
+        type: "error",
+      });
 
     const uploadfile = new FormData();
     uploadfile.append("file", image);
@@ -201,23 +201,15 @@ const RegisterRestaurant = () => {
                   </div>
                   <div className="restaurant_form_item">
                     <label className="restaurant_form_label">Select City</label>
-                    <select  aria-label="Default select example" style={{padding:"8px",width:"200px"}} onChange={handleCity}>
-                      <option value="Mumbai">Mumbai</option>
-                      <option value="Delhi">Delhi</option>
-                      <option value="Bengaluru">Bengaluru</option>
-                      <option value="Hyberabad">Hyberabad</option>
-                      <option value="Ahmedabad">Ahmedabad</option>
-                      <option value="Chandigarh">Chandigarh</option>
-                      <option value="Chennai">Chennai</option>
-                      <option value="Pune">Pune</option>
-                      <option value="Kolkata">Kolkata</option>
-                      <option value="Kochi">Kochi</option>
+                    <select
+                      aria-label="Default select example"
+                      style={{ padding: "8px", width: "200px" }}
+                      onChange={handleCity}
+                    >
+                      {CITY_OPTIONS.map((city) => (
+                        <option value={city.value}>{city.label}</option>
+                      ))}
                     </select>
-                    {/* <Field
-                      type="text"
-                      className="restaurant_form_field"
-                      name="restaurant_city"
-                    /> */}
                     <ErrorMessage
                       className="restaurant_form_error"
                       name="restaurant_city"

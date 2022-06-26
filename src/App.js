@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchCartData, sendCartData } from "./store/cart-actions";
+import { fetchCartData, sendCartData } from "./store/actions/cart-actions";
+import { USER_ROLES, END_POINTS } from "./constants/constant";
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
 import LoginModal from "./components/Auth/LoginModal";
@@ -20,13 +21,14 @@ import CustomerOrders from "./components/Customer/CustomerOrders";
 import RegisterDeliveryMan from "./components/DeliveryMen/RegisterDeliveryMan";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+import { ProgressBar } from "./components/Customer/ProgressBar";
 
 function App() {
   const dispatch = useDispatch();
 
-  const cart = useSelector((state) => state.cart);
   const role = useSelector((state) => state.auth.role);
   const user = JSON.parse(localStorage.getItem("user"));
+  const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
     if (user) {
@@ -46,62 +48,80 @@ function App() {
     <>
       <div className="App">
         {role === "" && <NavBar />}
-        {role === "Restaurant Owner" && <OwnerNavBar />}
-        {role === "Customer" && <NavBar />}
-        {role === "Delivery Men" && <DeliveryNavbar />}
+        {role === USER_ROLES.RESTURANT_OWNER && <OwnerNavBar />}
+        {role === USER_ROLES.CUSTOMER && <NavBar />}
+        {role === USER_ROLES.DELIVERY_MEN && <DeliveryNavbar />}
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<LoginModal />} />
-          <Route path="/signup" element={<SignUpModal />} />
-          <Route path="/:restaurant_name" element={<Restaurant />} />
+          <Route path={END_POINTS.BASE} element={<Home />} />
+          <Route path={END_POINTS.LOGIN} element={<LoginModal />} />
+          <Route path={END_POINTS.SIGNUP} element={<SignUpModal />} />
+          <Route path={END_POINTS.RESTAURANT_NAME} element={<Restaurant />} />
 
           <Route
-            path="/request"
-            element={<Protected role="Restaurant Owner" Component={Request} />}
-          />
-          <Route
-            path="/menu"
+            path={END_POINTS.ORDER_REQUEST}
             element={
-              <Protected role="Restaurant Owner" Component={StoreMenu} />
+              <Protected role={USER_ROLES.RESTURANT_OWNER} Component={Request} />
             }
           />
           <Route
-            path="/registerrestaurant"
+            path={END_POINTS.RESTAURANT_MENU}
+            element={
+              <Protected role={USER_ROLES.RESTURANT_OWNER} Component={StoreMenu} />
+            }
+          />
+          <Route
+            path={END_POINTS.REGISTER_RESTAURANT}
             element={
               <Protected
-                role="Restaurant Owner"
+                role={USER_ROLES.RESTURANT_OWNER}
                 Component={RegisterRestaurant}
               />
             }
           />
           <Route
-            path="/addItem"
-            element={<Protected role="Restaurant Owner" Component={AddItem} />}
-          />
-
-          <Route
-            path="/deliveryrequests"
+            path={END_POINTS.ADD_ITEM}
             element={
-              <Protected role="Delivery Men" Component={DeliveryRequests} />
-            }
-          />
-          <Route
-            path="/registerDeliveryMen"
-            element={
-              <Protected role="Delivery Men" Component={RegisterDeliveryMan} />
-            }
-          />
-          <Route
-            path="/acceptedorders"
-            element={
-              <Protected role="Delivery Men" Component={AcceptedOrders} />
+              <Protected role={USER_ROLES.RESTURANT_OWNER} Component={AddItem} />
             }
           />
 
           <Route
-            path="/customerorders"
-            element={<Protected role="Customer" Component={CustomerOrders} />}
+            path={END_POINTS.DELIVERY_REQUESTS}
+            element={
+              <Protected
+                role={USER_ROLES.DELIVERY_MEN}
+                Component={DeliveryRequests}
+              />
+            }
           />
+          <Route
+            path={END_POINTS.REGISTER_DELIVERY_MEN}
+            element={
+              <Protected
+                role={USER_ROLES.DELIVERY_MEN}
+                Component={RegisterDeliveryMan}
+              />
+            }
+          />
+          <Route
+            path={END_POINTS.ACCEPTED_ORDERS}
+            element={
+              <Protected role={USER_ROLES.DELIVERY_MEN} Component={AcceptedOrders} />
+            }
+          />
+
+          <Route
+            path={END_POINTS.CUSTOMER_ORDERS}
+            element={
+              <Protected role={USER_ROLES.CUSTOMER} Component={CustomerOrders} />
+            }
+          />
+          {/* <Route
+            path={END_POINTS.CUSTOMER_PROGRESS_BAR}
+            element={
+              <Protected role={USER_ROLES.CUSTOMER} Component={ProgressBar} />
+            }
+          /> */}
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

@@ -1,7 +1,8 @@
 .restaurantfoodItems{ 
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: space-evenly;
 }
 
 .menuItem{
@@ -22,4 +23,5 @@
     padding: 20px;
     background-color: rgb(183, 191, 191);
     width: 50%;
+    border-radius: 10px;
 }

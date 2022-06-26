@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { CartAction } from "../../store/cart-slice";
-import {
-  ShoppingCartOutlinedIcon,
-  Modal,
-  Button,
-  Form,
-} from "../../react-bootstrap/component";
-import { fetchCartData, sendOrderData  } from "../../store/cart-actions";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { CartAction } from "../../store/slices/cart-slice";
+import { fetchCartData } from "../../store/actions/cart-actions";
+import { sendOrderData } from "../../store/actions/order-actions";
+import { END_POINTS } from "../../constants/constant";
+import {ShoppingCartOutlinedIcon,Modal,Button,Form} from "../../react-bootstrap/component";
 import "../../styles/Cart.css";
 import { toast } from "react-toastify";
 toast.configure();
@@ -40,7 +37,7 @@ const Cart = () => {
         theme: "colored",
         type: "error",
       });
-      navigate("/login");
+      navigate(END_POINTS.LOGIN);
     }
   };
 
@@ -160,7 +157,7 @@ const Cart = () => {
           </Button>
           {formIsOpen && (
             <Button variant="success" onClick={onSubmit}>
-              Confirm
+              Confirm Order
             </Button>
           )}
           {!formIsOpen && (

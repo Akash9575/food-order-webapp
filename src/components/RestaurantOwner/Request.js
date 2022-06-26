@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchPendingOrders } from "../../store/order-actions";
+import { fetchPendingOrders } from "../../store/actions/order-actions";
 import { base_url } from "../../urls/url";
 import { Card, Row, Col, Button } from "react-bootstrap";
 import "../../styles/Request.css";
@@ -16,7 +16,7 @@ const Request = () => {
 
   useEffect(() => {
     if (user_id !== 0) dispatch(fetchPendingOrders(user_id));
-  }, [user_id]);
+  }, [user_id, dispatch]);
 
   const handelAcceptOrder = (order_id) => {
     fetch(`${base_url}/api/v1/orders/${order_id}`, {
@@ -50,38 +50,31 @@ const Request = () => {
       <Row xs={1} md={2} lg={3} className="g-4 request_row">
         {pending_orders.length > 0 ? (
           pending_orders.map((order) => {
-            {
               for (let key in order.order_obj) {
                 order_items.push(order.order_obj[key]);
               }
-            }
             return (
               <Col key={order.id}>
                 <Card className="request_card">
-                  <Card.Body>
+                  <Card.Body className="p-3">
                     <Card.Title>Order Id : {order.id}</Card.Title>
-                    <Card.Text>
-                      <h4>Food Items:</h4>
+                    <Card.Text className="mt-3">
+                      <h5 className="my-3">Food Items:</h5>
 
                       {order_items.map((foodItem) => (
                         <>
-                          <div>
+                          <div className="d-flex justify-content-around">
                           <Card.Text>Name : {foodItem.name}</Card.Text>
                           <Card.Text>Quntity : {foodItem.quantity}</Card.Text>
-                          <Card.Text>Price : {foodItem.price}</Card.Text>
-              
                           </div>
                         </>
                       ))}
                     </Card.Text>
                     <Card.Text style={{ fontSize: "20px" }}>
-                      Address : {order.address}
-                    </Card.Text>
-                    <Card.Text style={{ fontSize: "20px" }}>
                       Total Items : {order.item_quantity}
                     </Card.Text>
                     <Card.Text style={{ fontSize: "20px" }}>
-                      Total Price : {order.total_price}
+                      Total Price : ${order.total_price}
                     </Card.Text>
                   </Card.Body>
                   <Card.Footer>

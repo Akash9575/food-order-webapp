@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import {useNavigate} from 'react-router-dom'
+import { useSelector, useDispatch } from "react-redux";
+import { fetchCustomerOrders } from "../../store/actions/order-actions";
+import {END_POINTS} from '../../constants/constant';
 import { Row, Col, Card, Button, Badge } from "../../react-bootstrap/component";
-import { base_url } from "../../urls/url";
-import { useSelector } from "react-redux";
 
 const CustomerOrders = () => {
-  const [customer_orders, setCustomer_Orders] = useState([]);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const user_id = useSelector((state) => state.auth.user_id);
+  const customer_orders = useSelector((state) => state.order.customer_orders);
 
   useEffect(() => {
     if (user_id !== 0) {
-      fetch(`${base_url}/api/v1/orders/?user_id=${user_id}`, {
-        mathod: "GET",
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => setCustomer_Orders(data))
-        .catch((err) => console.log(err));
+      dispatch(fetchCustomerOrders(user_id))
     }
   }, [user_id]);
+
+  // const showProgressBar = () => {
+  //   navigate(END_POINTS.CUSTOMER_PROGRESS_BAR);
+  // }
 
   return (
     <>

@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Card, Row, Col, Button, Modal } from "react-bootstrap";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { base_url } from "../../urls/url";
+import { Card, Row, Col, Button, Modal, Form } from "react-bootstrap";
 import "../../styles/StoreMenu.css";
 import { toast } from "react-toastify";
 toast.configure();
@@ -31,10 +29,6 @@ const StoreMenu = () => {
       event.stopPropagation();
     }
     setValidated(true);
-  };
-
-  const handleEditItem = (e) => {
-    setShowEditModal(true);
   };
 
   useEffect(() => {
@@ -70,7 +64,7 @@ const StoreMenu = () => {
           console.log(err);
         });
     }
-  }, [user_id]);
+  }, [user_id, allRestaurantItem]);
 
   const handleRestaurnatNavigate = (event) => {
     navigate("../registerrestaurant");
@@ -132,13 +126,13 @@ const StoreMenu = () => {
           ) : (
             <>
               <div className="restauntMenu_header">
-                <h1>Your menu</h1>
+                <h1>Your Menu</h1>
                 <Button onClick={handleAddItemNavigate}>Add Item</Button>
               </div>
               <div className="restaurantfoodItems">
                 {allRestaurantItem.map((foodItem) => (
                   <>
-                    <Card style={{ width: "50%" }} className="m-3 menuItem" key={foodItem.id}>
+                    <Card className="m-3 menuItem" key={foodItem.id}>
                       <Row className="no-gutters">
                         <Col md={5} lg={5}>
                           <Card.Img
@@ -150,12 +144,8 @@ const StoreMenu = () => {
                         <Col>
                           <Card.Body>
                             <Card.Title>{foodItem.item_name}</Card.Title>
-                            <Card.Text>{foodItem.item_description}</Card.Text>
-                            {/* <ModeEditIcon
-                              color="primary"
-                              fontSize="large"
-                              onClick={handleEditItem}
-                            /> */}
+                            <Card.Text className="d-flex flex-wrap justify-content-around my-3">{foodItem.item_description} <b>${foodItem.item_price}</b></Card.Text>
+                            
                             <DeleteIcon
                               fontSize="large"
                               onClick={() => onDelete(foodItem.id)}

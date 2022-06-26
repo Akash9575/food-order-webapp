@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialOrderState = {
     pending_orders:[],
+    customer_orders : []
 }
 
 const OrderSlice = createSlice({
@@ -11,6 +12,9 @@ const OrderSlice = createSlice({
         replacePendingOrderData(state,action){
             state.pending_orders = action.payload.pending_orders;
         },
+        replaceCustomerOrderData(state, action){
+            state.customer_orders = action.payload.customer_orders;
+        }
     }
 })
 

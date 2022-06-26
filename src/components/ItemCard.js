@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardGroup, Row, Col, Badge } from "../react-bootstrap/component";
-import StarIcon from "@mui/icons-material/Star";
+import { Card, Row, Col, Badge } from "../react-bootstrap/component";
 import { useNavigate } from "react-router-dom";
-import "../styles/ItemCard.css";
 import { base_url } from "../urls/url";
+import "../styles/ItemCard.css";
 
 var a = 0;
 const ItemCard = (props) => {
   const [allRestaurantData, setAllRestaurantData] = useState([]);
   const [cityViseRestaurant, setCityViseRestaurant] = useState([]);
   const [searchData, setSearchData] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,8 +28,6 @@ const ItemCard = (props) => {
       console.log(err);
     });
   }, []);
-
-  let navigate = useNavigate();
 
   useEffect(() => {
     if (a == 1) {
@@ -80,13 +79,13 @@ const ItemCard = (props) => {
                       close
                     </Badge>
                   )}
-                  <small className="text-muted">{item.restaurant_city} </small>
+                  <h5 className="text-dark">{item.restaurant_city} </h5>
                 </Card.Footer>
               </Card>
             </Col>
           ))
         ) : (
-          <h1>There are no restaurant available</h1>
+          <h1>No Restaurants Available</h1>
         )}
       </Row>
     </>

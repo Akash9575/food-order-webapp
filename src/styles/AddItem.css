@@ -1,7 +1,9 @@
 .addItemForm{
-   width: 40%; 
-   margin: 100px auto;
+   width: fit-content; 
+   margin: 3rem auto;
    display: flex;
    flex-direction: column;
-   background-color: rgb(200, 212, 212);
+   background-color: rgb(109, 230, 230);
+   border-radius: 10px;
+   border: 2px solid blueviolet;
 }
