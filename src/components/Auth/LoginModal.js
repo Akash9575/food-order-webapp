@@ -81,7 +81,6 @@ export default function LoginModal(props) {
           <h1 className="mb-5">Log In</h1>
           <Row className="my-5">
             <Form.Group as={Col} controlId="validationCustomUsername">
-              {/* <Form.Label className="form_label">Email</Form.Label> */}
               <Form.Control
                 type="email"
                 placeholder="Email"
@@ -94,13 +93,12 @@ export default function LoginModal(props) {
                 className="form_control_feedback"
                 type="invalid"
               >
-                Please Enter a Username.
+                Please Enter a Email.
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
           <Row className="my-5">
             <Form.Group as={Col} controlId="validationCustom03">
-              {/* <Form.Label className="form_label">Password</Form.Label> */}
               <Form.Control
                 type="password"
                 placeholder="Password"
